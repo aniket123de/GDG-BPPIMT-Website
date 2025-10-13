@@ -11,6 +11,7 @@ import IndividualPastEvent from "./IndividualPastEvent"
 import IndividualUpcomingEvent from "./IndividualUpcomingEvents"
 import AmongUsButton from "./AmongUsButton"
 import ScrollProgress from "./ScrollProgress"
+import ScrollToTop from "./ScrollToTop"
 import Loader from "./Loader"
 
 export {
@@ -27,5 +28,6 @@ export {
   IndividualUpcomingEvent,
   AmongUsButton,
   ScrollProgress,
+  ScrollToTop,
   Loader
 };

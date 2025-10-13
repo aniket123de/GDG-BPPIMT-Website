@@ -189,11 +189,21 @@ const HeroSection = () => {
           key={s.id}
           src={s.img}
           alt="amongus"
-          className="absolute select-none pointer-events-none z-[1]"
+          className="absolute cursor-grab active:cursor-grabbing z-[2]"
           style={{ width: `${s.sizeVw}vw` }}
           initial={{ left: s.lefts[0], top: s.tops[0], rotate: 0 }}
           animate={{ left: s.lefts, top: s.tops, rotate: s.rotate }}
           transition={{ duration: s.duration, repeat: Infinity, ease: "easeInOut", delay: s.delay }}
+          drag
+          dragMomentum={false}
+          dragElastic={0.1}
+          whileDrag={{ scale: 1.1, rotate: 15 }}
+          onDragStart={() => {
+            // Optional: You can add any logic when drag starts
+          }}
+          onDragEnd={() => {
+            // Optional: You can add any logic when drag ends
+          }}
         />
       ))}
       {/* Left Kite with continuous up/down and left/right motion */}

@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Navbar, Footer, Articles, FeedbackForm, IndividualPastEvent, IndividualUpcomingEvent, ScrollProgress, Loader } from "./components/index.ts";
+import { Navbar, Footer, Articles, FeedbackForm, IndividualPastEvent, IndividualUpcomingEvent, ScrollProgress, ScrollToTop, Loader } from "./components/index.ts";
 import {Home, Team , Events } from "./pages/index.ts"
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
@@ -63,6 +63,7 @@ function App() {
           element={<IndividualUpcomingEvent />}
         />
           </Routes>
+          <ScrollToTop />
         </>
       )}
     </>
