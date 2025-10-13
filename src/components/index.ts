@@ -11,6 +11,7 @@ import IndividualPastEvent from "./IndividualPastEvent"
 import IndividualUpcomingEvent from "./IndividualUpcomingEvents"
 import AmongUsButton from "./AmongUsButton"
 import ScrollProgress from "./ScrollProgress"
+import Loader from "./Loader"
 
 export {
   Navbar,
@@ -25,5 +26,6 @@ export {
   IndividualPastEvent,
   IndividualUpcomingEvent,
   AmongUsButton,
-  ScrollProgress
+  ScrollProgress,
+  Loader
 };

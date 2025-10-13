@@ -246,3 +246,38 @@ html {
   75% { background-position: 50% 100%; }
   100% { background-position: 0% 50%; }
 }
+
+/* Loader animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Smooth loader transitions */
+.loader-enter {
+  opacity: 0;
+}
+
+.loader-enter-active {
+  opacity: 1;
+  transition: opacity 0.3s ease-in;
+}
+
+.loader-exit {
+  opacity: 1;
+}
+
+.loader-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}

@@ -1,14 +1,25 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Navbar, Footer, Articles, FeedbackForm, IndividualPastEvent, IndividualUpcomingEvent, ScrollProgress } from "./components/index.ts";
+import { Navbar, Footer, Articles, FeedbackForm, IndividualPastEvent, IndividualUpcomingEvent, ScrollProgress, Loader } from "./components/index.ts";
 import {Home, Team , Events } from "./pages/index.ts"
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import "./App.css";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Handle loading for initial page load and route changes
+  useEffect(() => {
+    setIsLoading(true);
+  }, [location.pathname]);
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     const lenis = new Lenis();
 
@@ -30,9 +41,12 @@ function App() {
 
   return (
     <>
-      <ScrollProgress />
-      <Navbar />
-      <Routes location={location} key={location.pathname}>
+      <Loader isLoading={isLoading} onLoadingComplete={handleLoadingComplete} />
+      {!isLoading && (
+        <>
+          <ScrollProgress />
+          <Navbar />
+          <Routes location={location} key={location.pathname}>
         <Route index element={<Home />} />
         <Route path="/team" element={<Team />} />
         <Route path="/events" element={<Events />} />
@@ -48,7 +62,9 @@ function App() {
           path="/events/UpcomingEvents/:id"
           element={<IndividualUpcomingEvent />}
         />
-      </Routes>
+          </Routes>
+        </>
+      )}
     </>
   );
 }
