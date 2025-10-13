@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-display: swap;
+  font-style: normal;
+  src: url("../fonts/GoogleSansDisplay-Bold.ttf");
+  font-family: "GSD-Bold";
+  font-weight: 700;
+}
+
+@font-face {
+  font-display: swap;
+  font-style: normal;
+  src: url("../fonts/GoogleSansDisplay-Regular.ttf");
+  font-family: "GSD-Regular";
+  font-weight: 400;
+}
