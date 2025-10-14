@@ -26,7 +26,7 @@ const Loader: React.FC<LoaderProps> = ({ isLoading, onLoadingComplete }) => {
   if (!showLoader) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full" style={{ backgroundColor: '#FCFCFE' }}>
       <img 
         src={googleGif} 
         alt="Loading..." 
