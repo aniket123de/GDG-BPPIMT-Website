@@ -1,21 +1,28 @@
 import GithubIcon from '../assets/github.svg';
 import LinkedinIcon from '../assets/linkedin.svg';
 
-const TeamMember = ({MemberName, Role, Image, GithubLink, LinkedinLink} : {MemberName: string, Role: string, Image: any, GithubLink: string, LinkedinLink: string}) => {
+const TeamMember = ({MemberName, Role, Image, GithubLink, LinkedinLink, Bio} : {MemberName: string, Role: string, Image: any, GithubLink: string, LinkedinLink: string, Bio?: string}) => {
   return (
-    <div className="team-member m-6 z-10 bg-white md:h-[300px] lg:h-[350px] xl:h-[400px] 2xl:h-[450px] rounded-3xl border-[1px] border-black border-solid p-6 flex flex-col-reverse md:flex-row items-center justify-between gap-4 lg:gap-8">
+    <div className="team-member m-6 z-10 bg-white min-h-[300px] rounded-3xl border-[1px] border-black border-solid p-6 flex flex-col-reverse md:flex-row items-center justify-between gap-4 lg:gap-8">
       {/* Info section */}
-      <div className="info flex flex-col justify-between w-full md:w-[45%] h-auto md:h-[96%] text-center md:text-left">
-        {/* Member Name */}
-        <div>
+      <div className="info flex flex-col justify-between w-full md:w-[45%] h-auto text-center md:text-left">
+        {/* Member Name, Role, and Bio */}
+        <div className="flex-1">
           <p className="font-bold text-2xl md:text-3xl lg:text-2xl xl:text-4xl 2xl:text-6xl pb-2">
             {MemberName}
           </p>
           <p className="text-xl lg:text-lg xl:text-2xl 2xl:text-4xl">{Role}</p>
+          
+          {/* Bio Description */}
+          {Bio && (
+            <p className="text-sm lg:text-xs xl:text-sm 2xl:text-base mt-3 text-gray-700 leading-snug">
+              {Bio}
+            </p>
+          )}
         </div>
 
-        {/* Social Media Links */}
-        <div className="flex justify-center md:justify-start gap-4 mt-4">
+        {/* Social Media Links - Fixed at bottom */}
+        <div className="flex justify-center md:justify-start gap-4 mt-4 flex-shrink-0">
           <a className="cursor-pointer" href={GithubLink} target="_blank">
             <img
               loading="lazy"
@@ -35,10 +42,10 @@ const TeamMember = ({MemberName, Role, Image, GithubLink, LinkedinLink} : {Membe
         </div>
       </div>
 
-      {/* Image section with fixed size */}
+      {/* Image section */}
       <img
         loading="lazy"
-        className="image profile rounded-2xl w-[100%] md:w-[45%] md:h-[96%] lg:w-[40%] lg:h-[96%] xl:w-[35%] xl:h-[96%] 2xl:w-[30%] 2xl:h-[96%] aspect-square object-cover"
+        className="image profile rounded-2xl w-[100%] md:w-[45%] lg:w-[40%] xl:w-[35%] 2xl:w-[30%] aspect-square object-cover"
         src={Image}
         alt="TeamMember"
       />

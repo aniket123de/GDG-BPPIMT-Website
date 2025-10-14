@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Navbar, Footer, Articles, FeedbackForm, IndividualPastEvent, IndividualUpcomingEvent, ScrollProgress, ScrollToTop, Loader } from "./components/index.ts";
+import { Navbar, Footer, Articles, FeedbackForm, IndividualPastEvent, IndividualUpcomingEvent, ScrollProgress, ScrollToTop, Loader, PixelTrail } from "./components/index.ts";
 import {Home, Team , Events } from "./pages/index.ts"
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
@@ -42,27 +42,35 @@ function App() {
   return (
     <>
       <Loader isLoading={isLoading} onLoadingComplete={handleLoadingComplete} />
+      <PixelTrail 
+        gridSize={24}
+        trailSize={0.05}
+        maxAge={120}
+        color="#4285f4"
+      />
       {!isLoading && (
         <>
           <ScrollProgress />
           <Navbar />
-          <Routes location={location} key={location.pathname}>
-        <Route index element={<Home />} />
-        <Route path="/team" element={<Team />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/footer" element={<Footer />} />
-        <Route path="/articles" element={<Articles />} />
-        <Route path="/feedback" element={<FeedbackForm />} />
-        <Route path="/contact" element={<Footer />} />
-        <Route
-          path="/events/PastEvents/:id"
-          element={<IndividualPastEvent />}
-        />
-        <Route
-          path="/events/UpcomingEvents/:id"
-          element={<IndividualUpcomingEvent />}
-        />
-          </Routes>
+          <div className="w-full min-h-screen">
+            <Routes location={location} key={location.pathname}>
+          <Route index element={<Home />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/footer" element={<Footer />} />
+          <Route path="/articles" element={<Articles />} />
+          <Route path="/feedback" element={<FeedbackForm />} />
+          <Route path="/contact" element={<Footer />} />
+          <Route
+            path="/events/PastEvents/:id"
+            element={<IndividualPastEvent />}
+          />
+          <Route
+            path="/events/UpcomingEvents/:id"
+            element={<IndividualUpcomingEvent />}
+          />
+            </Routes>
+          </div>
           <ScrollToTop />
         </>
       )}
