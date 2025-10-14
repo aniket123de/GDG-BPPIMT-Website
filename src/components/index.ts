@@ -13,7 +13,6 @@ import AmongUsButton from "./AmongUsButton"
 import ScrollProgress from "./ScrollProgress"
 import ScrollToTop from "./ScrollToTop"
 import Loader from "./Loader"
-import PixelTrail from "./PixelTrail"
 
 export {
   Navbar,
@@ -30,6 +29,5 @@ export {
   AmongUsButton,
   ScrollProgress,
   ScrollToTop,
-  Loader,
-  PixelTrail
+  Loader
 };
