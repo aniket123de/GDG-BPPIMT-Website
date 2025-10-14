@@ -151,7 +151,7 @@ const Team = () => {
 
             {/* Tech Team Section - First */}
             <div id="team-section-tech" className="mb-12">
-              <h3 className="text-2xl font-bold text-center mb-4 text-purple-600">Tech Team</h3>
+              <h3 className="text-2xl font-bold text-center mb-4 text-blue-600">Tech Team</h3>
               {[...coreTeamMembers, ...juniorTeamMembers]
                 .filter(member => member.Role.toLowerCase().includes("tech"))
                 .map((member, index) => (
@@ -168,7 +168,7 @@ const Team = () => {
 
             {/* Marketing Team Section - Second */}
             <div id="team-section-marketing" className="mb-12">
-              <h3 className="text-2xl font-bold text-center mb-4 text-orange-600">Marketing Team</h3>
+              <h3 className="text-2xl font-bold text-center mb-4 text-red-600">Marketing Team</h3>
               {[...coreTeamMembers, ...juniorTeamMembers]
                 .filter(member => member.Role.toLowerCase().includes("marketing"))
                 .map((member, index) => (
@@ -185,7 +185,7 @@ const Team = () => {
 
             {/* AI/ML Team Section */}
             <div id="team-section-ai-ml" className="mb-12">
-              <h3 className="text-2xl font-bold text-center mb-4 text-red-600">AI/ML Team</h3>
+              <h3 className="text-2xl font-bold text-center mb-4 text-green-600">AI/ML Team</h3>
               {[...coreTeamMembers, ...juniorTeamMembers]
                 .filter(member => member.Role.toLowerCase().includes("ai/ml"))
                 .map((member, index) => (
@@ -272,8 +272,8 @@ const Team = () => {
                 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 shadow-md ${
                   activeSection === 'organizer' 
-                    ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white ring-2 ring-slate-400 scale-105' 
-                    : 'bg-gradient-to-r from-slate-700 to-slate-800 text-white hover:from-slate-600 hover:to-slate-700 hover:scale-105'
+                    ? 'bg-gradient-to-r from-gray-700 to-gray-800 text-white ring-2 ring-gray-400 scale-105' 
+                    : 'bg-gradient-to-r from-gray-600 to-gray-700 text-white hover:from-gray-500 hover:to-gray-600 hover:scale-105'
                 }`}
               >
                 Leadership
@@ -285,8 +285,8 @@ const Team = () => {
                 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 shadow-md ${
                   activeSection === 'tech' 
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-700 text-white ring-2 ring-indigo-400 scale-105' 
-                    : 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white hover:from-indigo-400 hover:to-purple-500 hover:scale-105'
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white ring-2 ring-blue-400 scale-105' 
+                    : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-400 hover:to-blue-500 hover:scale-105'
                 }`}
               >
                 Tech
@@ -298,8 +298,8 @@ const Team = () => {
                 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 shadow-md ${
                   activeSection === 'marketing' 
-                    ? 'bg-gradient-to-r from-rose-600 to-pink-700 text-white ring-2 ring-rose-400 scale-105' 
-                    : 'bg-gradient-to-r from-rose-500 to-pink-600 text-white hover:from-rose-400 hover:to-pink-500 hover:scale-105'
+                    ? 'bg-gradient-to-r from-red-600 to-red-700 text-white ring-2 ring-red-400 scale-105' 
+                    : 'bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-400 hover:to-red-500 hover:scale-105'
                 }`}
               >
                 Marketing
@@ -311,8 +311,8 @@ const Team = () => {
                 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 shadow-md ${
                   activeSection === 'ai-ml' 
-                    ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white ring-2 ring-emerald-400 scale-105' 
-                    : 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white hover:from-emerald-400 hover:to-teal-500 hover:scale-105'
+                    ? 'bg-gradient-to-r from-green-600 to-green-700 text-white ring-2 ring-green-400 scale-105' 
+                    : 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-400 hover:to-green-500 hover:scale-105'
                 }`}
               >
                 AI/ML
@@ -324,8 +324,8 @@ const Team = () => {
                 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 shadow-md ${
                   activeSection === 'cloud' 
-                    ? 'bg-gradient-to-r from-sky-600 to-blue-700 text-white ring-2 ring-sky-400 scale-105' 
-                    : 'bg-gradient-to-r from-sky-500 to-blue-600 text-white hover:from-sky-400 hover:to-blue-500 hover:scale-105'
+                    ? 'bg-gradient-to-r from-blue-600 to-sky-700 text-white ring-2 ring-blue-400 scale-105' 
+                    : 'bg-gradient-to-r from-blue-500 to-sky-600 text-white hover:from-blue-400 hover:to-sky-500 hover:scale-105'
                 }`}
               >
                 Cloud
@@ -337,8 +337,8 @@ const Team = () => {
                 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 shadow-md ${
                   activeSection === 'design' 
-                    ? 'bg-gradient-to-r from-amber-600 to-orange-700 text-white ring-2 ring-amber-400 scale-105' 
-                    : 'bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-400 hover:to-orange-500 hover:scale-105'
+                    ? 'bg-gradient-to-r from-yellow-600 to-orange-700 text-white ring-2 ring-yellow-400 scale-105' 
+                    : 'bg-gradient-to-r from-yellow-500 to-orange-600 text-white hover:from-yellow-400 hover:to-orange-500 hover:scale-105'
                 }`}
               >
                 Design
@@ -350,8 +350,8 @@ const Team = () => {
                 }}
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 shadow-md ${
                   activeSection === 'management' 
-                    ? 'bg-gradient-to-r from-violet-600 to-purple-700 text-white ring-2 ring-violet-400 scale-105' 
-                    : 'bg-gradient-to-r from-violet-500 to-purple-600 text-white hover:from-violet-400 hover:to-purple-500 hover:scale-105'
+                    ? 'bg-gradient-to-r from-purple-600 to-indigo-700 text-white ring-2 ring-purple-400 scale-105' 
+                    : 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-400 hover:to-indigo-500 hover:scale-105'
                 }`}
               >
                 Management
@@ -367,7 +367,7 @@ const Team = () => {
           
           {/* Organizer Section */}
           <div id="mobile-team-section-organizer" className="mb-12 scroll-mt-20">
-            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-slate-700 to-slate-900 bg-clip-text text-transparent px-6">Leadership</h3>
+            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-gray-700 to-gray-900 bg-clip-text text-transparent px-6">Leadership</h3>
             {[...coreTeamMembers, ...juniorTeamMembers]
               .filter(member => member.Role.includes("Organizer"))
               .map((member, index) => (
@@ -384,7 +384,7 @@ const Team = () => {
 
           {/* Tech Team Section */}
           <div id="mobile-team-section-tech" className="mb-12 scroll-mt-20">
-            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent px-6">Tech Team</h3>
+            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent px-6">Tech Team</h3>
             {[...coreTeamMembers, ...juniorTeamMembers]
               .filter(member => member.Role.toLowerCase().includes("tech"))
               .map((member, index) => (
@@ -401,7 +401,7 @@ const Team = () => {
 
           {/* Marketing Team Section */}
           <div id="mobile-team-section-marketing" className="mb-12 scroll-mt-20">
-            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent px-6">Marketing Team</h3>
+            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent px-6">Marketing Team</h3>
             {[...coreTeamMembers, ...juniorTeamMembers]
               .filter(member => member.Role.toLowerCase().includes("marketing"))
               .map((member, index) => (
@@ -418,7 +418,7 @@ const Team = () => {
 
           {/* AI/ML Team Section */}
           <div id="mobile-team-section-ai-ml" className="mb-12 scroll-mt-20">
-            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent px-6">AI/ML Team</h3>
+            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-green-500 to-green-700 bg-clip-text text-transparent px-6">AI/ML Team</h3>
             {[...coreTeamMembers, ...juniorTeamMembers]
               .filter(member => member.Role.toLowerCase().includes("ai/ml"))
               .map((member, index) => (
@@ -435,7 +435,7 @@ const Team = () => {
 
           {/* Cloud Team Section */}
           <div id="mobile-team-section-cloud" className="mb-12 scroll-mt-20">
-            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-sky-500 to-blue-600 bg-clip-text text-transparent px-6">Cloud Team</h3>
+            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-blue-500 to-sky-700 bg-clip-text text-transparent px-6">Cloud Team</h3>
             {[...coreTeamMembers, ...juniorTeamMembers]
               .filter(member => member.Role.toLowerCase().includes("cloud"))
               .map((member, index) => (
@@ -452,7 +452,7 @@ const Team = () => {
 
           {/* Design Team Section */}
           <div id="mobile-team-section-design" className="mb-12 scroll-mt-20">
-            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent px-6">Design Team</h3>
+            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-yellow-500 to-orange-700 bg-clip-text text-transparent px-6">Design Team</h3>
             {[...coreTeamMembers, ...juniorTeamMembers]
               .filter(member => member.Role.toLowerCase().includes("design"))
               .map((member, index) => (
@@ -469,7 +469,7 @@ const Team = () => {
 
           {/* Management Team Section */}
           <div id="mobile-team-section-management" className="mb-12 scroll-mt-20">
-            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-violet-500 to-purple-600 bg-clip-text text-transparent px-6">Management Team</h3>
+            <h3 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-purple-500 to-indigo-700 bg-clip-text text-transparent px-6">Management Team</h3>
             {[...coreTeamMembers, ...juniorTeamMembers]
               .filter(member => member.Role.toLowerCase().includes("management"))
               .map((member, index) => (
