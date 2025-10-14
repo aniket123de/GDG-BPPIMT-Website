@@ -153,12 +153,12 @@ export function TeamSidebar() {
   };
 
   const teams = [
+    { name: 'Tech', key: 'tech' },
+    { name: 'Marketing', key: 'marketing' },
     { name: 'AI/ML', key: 'ai/ml' },
     { name: 'Cloud', key: 'cloud' },
     { name: 'Design', key: 'design' },
-    { name: 'Management', key: 'management' },
-    { name: 'Marketing', key: 'marketing' },
-    { name: 'Tech', key: 'tech' }
+    { name: 'Management', key: 'management' }
   ];
 
   // Filter teams that actually have members

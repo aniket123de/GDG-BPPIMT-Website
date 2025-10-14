@@ -99,6 +99,40 @@ const Team = () => {
               ))}
             </div>
 
+            {/* Tech Team Section - First */}
+            <div id="team-section-tech" className="mb-12">
+              <h3 className="text-2xl font-bold text-center mb-4 text-purple-600">Tech Team</h3>
+              {[...coreTeamMembers, ...juniorTeamMembers]
+                .filter(member => member.Role.toLowerCase().includes("tech"))
+                .map((member, index) => (
+                <Suspense
+                  key={index}
+                  fallback={<div className="m-6 p-6 text-center">Loading...</div>}
+                >
+                  <div id={`member-${member.MemberName.replace(/\s+/g, '-')}`}>
+                    <TeamMember {...member} />
+                  </div>
+                </Suspense>
+              ))}
+            </div>
+
+            {/* Marketing Team Section - Second */}
+            <div id="team-section-marketing" className="mb-12">
+              <h3 className="text-2xl font-bold text-center mb-4 text-orange-600">Marketing Team</h3>
+              {[...coreTeamMembers, ...juniorTeamMembers]
+                .filter(member => member.Role.toLowerCase().includes("marketing"))
+                .map((member, index) => (
+                <Suspense
+                  key={index}
+                  fallback={<div className="m-6 p-6 text-center">Loading...</div>}
+                >
+                  <div id={`member-${member.MemberName.replace(/\s+/g, '-')}`}>
+                    <TeamMember {...member} />
+                  </div>
+                </Suspense>
+              ))}
+            </div>
+
             {/* AI/ML Team Section */}
             <div id="team-section-ai-ml" className="mb-12">
               <h3 className="text-2xl font-bold text-center mb-4 text-red-600">AI/ML Team</h3>
@@ -155,40 +189,6 @@ const Team = () => {
               <h3 className="text-2xl font-bold text-center mb-4 text-green-600">Management Team</h3>
               {[...coreTeamMembers, ...juniorTeamMembers]
                 .filter(member => member.Role.toLowerCase().includes("management"))
-                .map((member, index) => (
-                <Suspense
-                  key={index}
-                  fallback={<div className="m-6 p-6 text-center">Loading...</div>}
-                >
-                  <div id={`member-${member.MemberName.replace(/\s+/g, '-')}`}>
-                    <TeamMember {...member} />
-                  </div>
-                </Suspense>
-              ))}
-            </div>
-
-            {/* Marketing Team Section */}
-            <div id="team-section-marketing" className="mb-12">
-              <h3 className="text-2xl font-bold text-center mb-4 text-orange-600">Marketing Team</h3>
-              {[...coreTeamMembers, ...juniorTeamMembers]
-                .filter(member => member.Role.toLowerCase().includes("marketing"))
-                .map((member, index) => (
-                <Suspense
-                  key={index}
-                  fallback={<div className="m-6 p-6 text-center">Loading...</div>}
-                >
-                  <div id={`member-${member.MemberName.replace(/\s+/g, '-')}`}>
-                    <TeamMember {...member} />
-                  </div>
-                </Suspense>
-              ))}
-            </div>
-
-            {/* Tech Team Section */}
-            <div id="team-section-tech" className="mb-12">
-              <h3 className="text-2xl font-bold text-center mb-4 text-purple-600">Tech Team</h3>
-              {[...coreTeamMembers, ...juniorTeamMembers]
-                .filter(member => member.Role.toLowerCase().includes("tech"))
                 .map((member, index) => (
                 <Suspense
                   key={index}
