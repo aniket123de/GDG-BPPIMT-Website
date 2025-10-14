@@ -154,56 +154,6 @@ const Navbar = () => {
         >
           Contact Us
         </button>
-        
-        {/* Mobile Login/Signup Buttons */}
-        <div className="flex flex-col space-y-4 mt-8">
-          <button
-            className="px-6 py-3 rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg text-xl"
-            style={{
-              backgroundColor: buttonColors.loginColor.bg,
-              color: buttonColors.loginColor.text,
-              border: `2px solid ${buttonColors.loginColor.bg}`,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = buttonColors.loginColor.hover;
-              e.currentTarget.style.borderColor = buttonColors.loginColor.hover;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = buttonColors.loginColor.bg;
-              e.currentTarget.style.borderColor = buttonColors.loginColor.bg;
-            }}
-            onClick={() => {
-              console.log("Login clicked");
-              regenerateColors();
-              toggleMenu();
-            }}
-          >
-            Login
-          </button>
-          <button
-            className="px-6 py-3 rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg text-xl"
-            style={{
-              backgroundColor: buttonColors.signupColor.bg,
-              color: buttonColors.signupColor.text,
-              border: `2px solid ${buttonColors.signupColor.bg}`,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = buttonColors.signupColor.hover;
-              e.currentTarget.style.borderColor = buttonColors.signupColor.hover;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = buttonColors.signupColor.bg;
-              e.currentTarget.style.borderColor = buttonColors.signupColor.bg;
-            }}
-            onClick={() => {
-              console.log("Signup clicked");
-              regenerateColors();
-              toggleMenu();
-            }}
-          >
-            Signup
-          </button>
-        </div>
       </div>
     </nav>
   );
