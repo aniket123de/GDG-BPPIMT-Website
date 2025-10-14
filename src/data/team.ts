@@ -386,21 +386,21 @@ export const teamMembers: TeamMemberData[] = [
 
   // Marketing Team - Core Members
   {
-    MemberName: "Sushil Sharma",
-    Role: "Marketing Team - Core Member",
-    Image: SushilPic,
-    GithubLink: "https://github.com/sushil",
-    LinkedinLink: "https://www.linkedin.com/in/sushil-sharma/",
-    Bio: "",
-    isCore: true,
-  },
-  {
     MemberName: "Adrish Basak",
     Role: "Marketing Team - Core Member",
     Image: AdrishPic,
     GithubLink: "https://github.com/adrish",
     LinkedinLink: "https://www.linkedin.com/in/adrish-basak/",
     Bio: "With a background in web dev, I enjoy making cool things and getting people excited about them. I can't wait to collaborate with the marketting team to help our GDG chapter grow!",
+    isCore: true,
+  },
+  {
+    MemberName: "Sushil Sharma",
+    Role: "Marketing Team - Core Member",
+    Image: SushilPic,
+    GithubLink: "https://github.com/sushil",
+    LinkedinLink: "https://www.linkedin.com/in/sushil-sharma/",
+    Bio: "",
     isCore: true,
   },
   {
