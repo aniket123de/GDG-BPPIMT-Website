@@ -13,6 +13,7 @@ import AmongUsButton from "./AmongUsButton"
 import ScrollProgress from "./ScrollProgress"
 import ScrollToTop from "./ScrollToTop"
 import Loader from "./Loader"
+import { TeamSidebar } from "./ui/sidebar"
 
 export {
   Navbar,
@@ -29,5 +30,6 @@ export {
   AmongUsButton,
   ScrollProgress,
   ScrollToTop,
-  Loader
+  Loader,
+  TeamSidebar
 };
