@@ -46,6 +46,7 @@ const Team = () => {
     if (matches) {
       const prevHtmlOverflow = document.documentElement.style.overflow;
       const prevBodyOverflow = document.body.style.overflow;
+      // Allow the pixel trail to be visible while still disabling scroll
       document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
       return () => {
