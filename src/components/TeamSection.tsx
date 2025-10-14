@@ -1,12 +1,40 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { leadsAndOrganizer } from "../data/team";
 import Particles from "./Particles";
+import AmongUsParticles from "./AmongUsParticles";
 
 const TeamMember = lazy(() => import("../components/TeamMember"));
 
 const TeamSection = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-in-right');
+          entry.target.classList.remove('opacity-0', 'translate-x-8');
+        }
+      });
+    }, observerOptions);
+
+    const teamCards = document.querySelectorAll('.team-member-card');
+    teamCards.forEach((card) => {
+      observer.observe(card);
+    });
+
+    return () => {
+      teamCards.forEach((card) => {
+        observer.unobserve(card);
+      });
+    };
+  }, []);
 
   return (
     <div className="relative font-GSD_Regular w-full flex flex-col bg-black py-12 overflow-hidden">
@@ -14,13 +42,18 @@ const TeamSection = () => {
       <div className="absolute inset-0 w-full h-full">
         <Particles
           particleColors={['#4285F4', '#EA4335', '#FBBC04', '#34A853']}
-          particleCount={800}
+          particleCount={600}
           particleSpread={10}
           speed={0.5}
-          particleBaseSize={100}
+          particleBaseSize={80}
           moveParticlesOnHover={true}
           alphaParticles={false}
           disableRotation={false}
+        />
+        {/* Among Us Characters floating in background */}
+        <AmongUsParticles 
+          particleCount={6}
+          className="opacity-70"
         />
       </div>
 
@@ -32,12 +65,19 @@ const TeamSection = () => {
         
         <div className="w-full">
           {leadsAndOrganizer.map((member, index) => (
-            <Suspense
+            <div
               key={index}
-              fallback={<div className="m-6 p-6 text-center">Loading...</div>}
+              className="team-member-card opacity-0 translate-x-8 transition-all duration-700 ease-out"
+              style={{
+                transitionDelay: `${index * 100}ms`
+              }}
             >
-              <TeamMember {...member} />
-            </Suspense>
+              <Suspense
+                fallback={<div className="m-6 p-6 text-center">Loading...</div>}
+              >
+                <TeamMember {...member} />
+              </Suspense>
+            </div>
           ))}
         </div>
 

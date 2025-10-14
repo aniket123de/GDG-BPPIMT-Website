@@ -28,4 +28,10 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;  /* Chrome, Safari and Opera */
   }
+
+  /* Fade in right animation for team cards */
+  .animate-fade-in-right {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+  }
 }

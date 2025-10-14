@@ -343,7 +343,7 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Animated Call-to-Action Button */}
-      <Link to="https://gdg.community.dev/gdg-on-campus-bppimt-kolkata-india/">
+      <Link to="https://gdg.community.dev/gdg-on-campus-b-p-poddar-institute-of-management-and-technology-kolkata-india/">
         <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

@@ -10,6 +10,7 @@ import FeedbackForm from "./Feedback"
 import IndividualPastEvent from "./IndividualPastEvent"
 import IndividualUpcomingEvent from "./IndividualUpcomingEvents"
 import AmongUsButton from "./AmongUsButton"
+import AmongUsParticles from "./AmongUsParticles"
 import ScrollProgress from "./ScrollProgress"
 import ScrollToTop from "./ScrollToTop"
 import Loader from "./Loader"
@@ -28,6 +29,7 @@ export {
   IndividualPastEvent,
   IndividualUpcomingEvent,
   AmongUsButton,
+  AmongUsParticles,
   ScrollProgress,
   ScrollToTop,
   Loader,
