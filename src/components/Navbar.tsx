@@ -3,26 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Logo from "/images/Header_Logo.svg";
 
-// Color palette for randomized buttons
-const BUTTON_COLORS = [
-  { bg: '#4285f4', hover: '#3367d6', text: 'white' }, // Blue 500
-  { bg: '#34a853', hover: '#2d8f47', text: 'white' }, // Green 500
-  { bg: '#f9ab00', hover: '#e09a00', text: 'white' }, // Yellow 600
-  { bg: '#ea4335', hover: '#d33b2c', text: 'white' }, // Red 500
-];
-
-// Function to get random colors for buttons
-const getRandomButtonColors = () => {
-  const loginColor = BUTTON_COLORS[Math.floor(Math.random() * BUTTON_COLORS.length)];
-  const signupColor = BUTTON_COLORS[Math.floor(Math.random() * BUTTON_COLORS.length)];
-  return { loginColor, signupColor };
-};
-
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [buttonColors, setButtonColors] = useState(() => getRandomButtonColors());
 
   useEffect(() => {
     setMenuOpen(false); // Close menu when location changes
@@ -30,10 +14,6 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
-  };
-
-  const regenerateColors = () => {
-    setButtonColors(getRandomButtonColors());
   };
 
   return (
