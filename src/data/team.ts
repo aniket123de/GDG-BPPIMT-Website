@@ -335,7 +335,7 @@ export const teamMembers: TeamMemberData[] = [
     Image: AharnaPic,
     GithubLink: "https://github.com/aharna",
     LinkedinLink: "https://www.linkedin.com/in/aharna-chatterjee/",
-    Bio: "I'm 3rd year B.Tech Computer Science student with strong technical skills and a passion for exploring new technologies. I manage tasks efficiently and show strong organizational and leadership skills in both academic and team projects.",
+    Bio: "I'm a 3rd year B.Tech Computer Science student with strong technical skills and a passion for exploring new technologies. I manage tasks efficiently and show strong organizational and leadership skills in both academic and team projects.",
     isCore: true,
   },
   {
