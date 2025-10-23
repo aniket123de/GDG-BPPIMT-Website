@@ -45,6 +45,12 @@ const Navbar = () => {
         >
           Team
         </button>
+        <button
+          className="text-gray-800 nav-links relative"
+          onClick={() => navigate("/leaderboard")}
+        >
+          Leaderboard
+        </button>
         {/* <button
           className="text-gray-800 nav-links relative"
           onClick={() => navigate("/articles")}
@@ -115,6 +121,15 @@ const Navbar = () => {
           }}
         >
           Team
+        </button>
+        <button
+          className="text-white text-3xl mb-6 transition relative"
+          onClick={() => {
+            navigate("/leaderboard");
+            toggleMenu();
+          }}
+        >
+          Leaderboard
         </button>
         {/* <button
           className="text-white text-3xl mb-6 transition relative"
