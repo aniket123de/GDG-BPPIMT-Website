@@ -88,10 +88,10 @@ export const teamMembers: TeamMemberData[] = [
     isCore: true,
   },
 
-  // Marketing Team Lead
+  // Management Team Lead
   {
     MemberName: "Aniket De",
-    Role: "Marketing Team Lead",
+    Role: "Management Lead",
     Image: AniketDePic,
     GithubLink: "https://github.com/aniket",
     LinkedinLink: "https://www.linkedin.com/in/aniket-de/",
@@ -135,7 +135,7 @@ export const teamMembers: TeamMemberData[] = [
   // Management Team Lead
   {
     MemberName: "Sneha Patra",
-    Role: "Management Team Lead",
+    Role: "Management Team - Core Member",
     Image: SnehaPatraPic,
     GithubLink: "https://github.com/sneha",
     LinkedinLink: "https://www.linkedin.com/in/sneha-patra/",
@@ -376,7 +376,7 @@ export const teamMembers: TeamMemberData[] = [
   },
   {
     MemberName: "Ankita Aman",
-    Role: "Management Team - Core Member",
+    Role: "Marketing Team Lead",
     Image: AnkitaAmanPic,
     GithubLink: "https://github.com/ankitaaman",
     LinkedinLink: "https://www.linkedin.com/in/ankita-aman/",
