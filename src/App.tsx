@@ -2,6 +2,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Navbar, Footer, Articles, FeedbackForm, IndividualPastEvent, IndividualUpcomingEvent, ScrollProgress, ScrollToTop, Loader } from "./components/index.ts";
 import {Home, Team , Events } from "./pages/index.ts"
+import Leaderboard from "./leaderboard/leaderboard";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import "./App.css";
@@ -52,6 +53,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/team" element={<Team />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/footer" element={<Footer />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/feedback" element={<FeedbackForm />} />

@@ -46,10 +46,10 @@ const Navbar = () => {
           Team
         </button>
         <button
-          className="text-gray-800 nav-links relative"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
           onClick={() => navigate("/leaderboard")}
         >
-          Leaderboard
+          📊 Leaderboard
         </button>
         {/* <button
           className="text-gray-800 nav-links relative"
@@ -123,13 +123,13 @@ const Navbar = () => {
           Team
         </button>
         <button
-          className="text-white text-3xl mb-6 transition relative"
+          className="bg-blue-500 hover:bg-blue-600 text-white text-xl px-6 py-3 rounded-lg font-semibold mb-6 transition-colors"
           onClick={() => {
             navigate("/leaderboard");
             toggleMenu();
           }}
         >
-          Leaderboard
+          📊 Leaderboard
         </button>
         {/* <button
           className="text-white text-3xl mb-6 transition relative"
