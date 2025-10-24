@@ -307,7 +307,7 @@ const resourcesData = [
     { text: "GitHub Solutions Repo", url: "https://github.com/VinitSurve/GenAI-Study-Jams-Solutions", icon: <Github /> },
     { text: "Cloud Skills Boost", url: "https://www.cloudskillsboost.google/", icon: <Globe /> },
     // Rectified: Use the correct group invite URL
-    { text: "Join WhatsApp Group", url: "https://chat.whatsapp.com/JhtrD6e673hKMqlxaWs1CR", icon: <FaWhatsapp className="text-green-600"/> }
+    { text: "Join WhatsApp Group", url: "https://chat.whatsapp.com/JA9clPhV4gz3bJekLY3t9a?mode=wwc", icon: <FaWhatsapp className="text-green-600"/> }
 ];
 
 // --- ACCORDION COMPONENTS (No changes) ---

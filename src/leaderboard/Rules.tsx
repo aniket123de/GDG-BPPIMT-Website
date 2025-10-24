@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaCheckCircle, FaClock, FaBan, FaPercentage, FaSearch, FaCalendarAlt, FaComments, FaStepForward, FaLightbulb, FaGlobe, FaEye } from 'react-icons/fa';
+import { FaCheckCircle, FaClock, FaBan, FaPercentage, FaSearch, FaCalendarAlt, FaComments, FaStepForward, FaLightbulb, FaGlobe, FaEye, FaWhatsapp, FaBook, FaTrophy, FaExclamationTriangle, FaCreditCard, FaFileAlt, FaClipboardList } from 'react-icons/fa';
 import Squares from '../components/Squares';
 
 const Rules = () => {
@@ -21,11 +21,11 @@ const Rules = () => {
             <div className="relative bg-transparent pt-20 pb-8 z-10">
                 <div className="max-w-6xl mx-auto px-6 text-center">
                     <div className="flex items-center justify-center mb-4">
-                        <span className="text-4xl mr-3">📋</span>
+                        <FaClipboardList className="text-4xl mr-3 text-blue-500" />
                         <h1 className="text-4xl md:text-5xl font-bold text-black">Rules & Guidelines</h1>
                     </div>
                     <p className="text-grey-700 text-lg max-w-2xl mx-auto">
-                        Master the labs with these proven tips and essential rules! 🚀
+                        Master the labs with these proven tips and essential rules!
                     </p>
 
                     {/* Join Group Button */}
@@ -33,13 +33,13 @@ const Rules = () => {
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 border-2 border-black shadow-lg text-lg"
+                            className="bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 border-2 border-black shadow-lg text-lg flex items-center gap-2 mx-auto"
                             onClick={() => {
                                 // TODO: Add join group redirect
                                 console.log('Join Group clicked');
                             }}
                         >
-                            💬 Join Group
+                            <FaWhatsapp /> Join Group
                         </motion.button>
                     </div>
                 </div>
@@ -49,9 +49,9 @@ const Rules = () => {
             <div className="py-12 bg-white/90 backdrop-blur-sm relative z-10">
                 <div className="max-w-6xl mx-auto px-6">
                     <div className="bg-white rounded-2xl p-8 border border-grey-100 shadow-lg">
-                        <div className="flex flex-col md:flex-row items-center justify-between">
+                                                <div className="flex flex-col md:flex-row items-center justify-between">
                             <div className="flex items-center mb-4 md:mb-0">
-                                <span className="text-4xl mr-4">💳</span>
+                                <FaCreditCard className="text-4xl mr-4 text-blue-500" />
                                 <div>
                                     <h3 className="text-xl font-bold text-black">Haven't Redeemed Your Google Cloud Credits?</h3>
                                     <p className="text-grey-700">If you haven't redeemed your Google Cloud credits yet, click below to get started!</p>
@@ -66,7 +66,7 @@ const Rules = () => {
                                     console.log('Redeem credits clicked');
                                 }}
                             >
-                                💳 Redeem Now
+                                <FaCreditCard /> Redeem Now
                             </motion.button>
                         </div>
                     </div>
@@ -81,7 +81,7 @@ const Rules = () => {
                             Easy Steps for Completing Labs
                         </h2>
                         <p className="text-grey-700 text-lg">
-                            Follow these proven steps to complete any lab successfully! 🎯
+                            Follow these proven steps to complete any lab successfully!
                         </p>
                     </div>
 
@@ -99,7 +99,7 @@ const Rules = () => {
                                 </div>
                                 <div className="flex-1">
                                     <div className="flex items-center mb-4">
-                                        <span className="text-2xl mr-3">📄</span>
+                                        <FaFileAlt className="text-2xl mr-3 text-blue-500" />
                                         <h3 className="text-2xl font-bold text-black">Copy the Lab Code</h3>
                                     </div>
                                     <p className="text-grey-700 text-lg mb-4">
@@ -162,8 +162,8 @@ const Rules = () => {
                                         Look for the most recent video only (e.g., 1 month or 1 week ago)
                                     </p>
                                     <div className="bg-grey-100 rounded-lg p-4 border-l-4 border-yellow-500">
-                                        <p className="text-yellow-600 font-semibold">
-                                            💡 <strong>Tip:</strong> Use YouTube filters → Sort by "Upload date" → Select "This month" or "This week"
+                                        <p className="text-yellow-600 font-semibold flex items-start gap-2">
+                                            <FaLightbulb className="mt-1 flex-shrink-0" /> <span><strong>Tip:</strong> Use YouTube filters → Sort by "Upload date" → Select "This month" or "This week"</span>
                                         </p>
                                     </div>
                                 </div>
@@ -190,8 +190,8 @@ const Rules = () => {
                                         Read the comments section to verify whether the solution is working or not
                                     </p>
                                     <div className="bg-grey-100 rounded-lg p-4 border-l-4 border-red-500">
-                                        <p className="text-red-600 font-semibold">
-                                            ⚠️ <strong>Important:</strong> If most comments say "not working," skip that video and find another one!
+                                        <p className="text-red-600 font-semibold flex items-start gap-2">
+                                            <FaExclamationTriangle className="mt-1 flex-shrink-0" /> <span><strong>Important:</strong> If most comments say "not working," skip that video and find another one!</span>
                                         </p>
                                     </div>
                                 </div>
@@ -218,8 +218,8 @@ const Rules = () => {
                                         Watch one step at a time and perform it on the actual lab carefully
                                     </p>
                                     <div className="bg-grey-100 rounded-lg p-4 border-l-4 border-yellow-500">
-                                        <p className="text-yellow-600 font-semibold">
-                                            💡 <strong>Pro Tip:</strong> Pause the video after each step, complete it in your lab, then continue!
+                                        <p className="text-yellow-600 font-semibold flex items-start gap-2">
+                                            <FaLightbulb className="mt-1 flex-shrink-0" /> <span><strong>Pro Tip:</strong> Pause the video after each step, complete it in your lab, then continue!</span>
                                         </p>
                                     </div>
                                 </div>
@@ -233,14 +233,14 @@ const Rules = () => {
             <div className="py-16 bg-white/80 backdrop-blur-sm relative z-10">
                 <div className="max-w-6xl mx-auto px-6">
                     <div className="text-center mb-12">
-                        <div className="inline-flex items-center bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                            ⚠️ MUST READ
+                        <div className="inline-flex items-center bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4 gap-2">
+                            <FaExclamationTriangle /> MUST READ
                         </div>
                         <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
                             Important Rules to Follow
                         </h2>
                         <p className="text-grey-700 text-lg">
-                            Keep these in mind to avoid any issues and ensure success! 🏆
+                            Keep these in mind to avoid any issues and ensure success!
                         </p>
                     </div>
 
@@ -396,7 +396,7 @@ const Rules = () => {
             <div className="py-16 bg-gradient-to-r from-blue-500 via-green-500 to-yellow-500 relative z-20">
                 <div className="max-w-4xl mx-auto px-6 text-center">
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                        Ready to <span className="text-green-200">Start</span> Your <span className="text-yellow-200">Journey</span>? 🚀
+                        Ready to <span className="text-green-200">Start</span> Your <span className="text-yellow-200">Journey</span>?
                     </h2>
                     <p className="text-white/90 text-lg mb-8">
                         Follow these rules and you'll complete all 20 courses in no time!
@@ -406,35 +406,35 @@ const Rules = () => {
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 border-2 border-black shadow-lg text-lg min-w-[200px]"
+                            className="bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 border-2 border-black shadow-lg text-lg min-w-[200px] flex items-center justify-center gap-2"
                             onClick={() => {
                                 // TODO: Add courses page redirect
                                 console.log('View All Courses clicked');
                             }}
                         >
-                            📚 View All Courses
+                            <FaBook /> View All Courses
                         </motion.button>
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 border-2 border-black shadow-lg text-lg min-w-[200px]"
+                            className="bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 border-2 border-black shadow-lg text-lg min-w-[200px] flex items-center justify-center gap-2"
                             onClick={() => {
                                 // TODO: Add WhatsApp group redirect
                                 console.log('Join WhatsApp Group clicked');
                             }}
                         >
-                            💬 Join WhatsApp Group
+                            <FaWhatsapp /> Join WhatsApp Group
                         </motion.button>
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 border-2 border-black shadow-lg text-lg min-w-[200px]"
+                            className="bg-yellow-400 hover:bg-yellow-500 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 border-2 border-black shadow-lg text-lg min-w-[200px] flex items-center justify-center gap-2"
                             onClick={() => {
                                 // TODO: Add leaderboard redirect
                                 console.log('Check Leaderboard clicked');
                             }}
                         >
-                            🏆 See Leaderboard
+                            <FaTrophy /> See Leaderboard
                         </motion.button>
                     </div>
                 </div>

@@ -57,12 +57,6 @@ const Navbar = () => {
         >
           Articles
         </button> */}
-        <button
-          className="text-gray-800 nav-links relative"
-          onClick={() => navigate("/contact")}
-        >
-          Contact Us
-        </button>
       </div>
 
       {/* Mobile Hamburger Icon */}

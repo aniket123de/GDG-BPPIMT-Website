@@ -369,7 +369,7 @@ const Header: React.FC = () => {
         </div>
 
         <a 
-          href="https://chat.whatsapp.com/JhtrD6e673hKMqlxaWs1CR" 
+          href="https://chat.whatsapp.com/JA9clPhV4gz3bJekLY3t9a?mode=wwc" 
           target="_blank" 
           rel="noopener noreferrer"
           className="whatsapp-btn"
@@ -933,7 +933,7 @@ const RewardsSection: React.FC = () => {
             </ul>
             <p style={{ marginTop: '15px' }}>
               <strong>⚡ Complete fast & send proof in our{' '}
-              <a href="https://chat.whatsapp.com/JhtrD6e673hKMqlxaWs1CR" target="_blank" rel="noopener noreferrer" className="whatsapp-inline-link">
+              <a href="https://chat.whatsapp.com/JA9clPhV4gz3bJekLY3t9a?mode=wwc" target="_blank" rel="noopener noreferrer" className="whatsapp-inline-link">
                 WhatsApp Group 💬
               </a>{' '}
               to secure your spot!</strong>
@@ -972,7 +972,7 @@ const Footer: React.FC = () => (
         <div className="footer-social">
           <h4>Connect With Us</h4>
           <div className="social-links">
-            <a href="https://chat.whatsapp.com/CFjYSo7453UBseMc7a9FDy" target="_blank" rel="noopener noreferrer" className="social-link whatsapp">
+            <a href="https://chat.whatsapp.com/JA9clPhV4gz3bJekLY3t9a?mode=wwc" target="_blank" rel="noopener noreferrer" className="social-link whatsapp">
               <span>💬</span>
               <span>WhatsApp</span>
             </a>

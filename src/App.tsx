@@ -73,7 +73,6 @@ function App() {
           <Route path="/footer" element={<Footer />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/feedback" element={<FeedbackForm />} />
-          <Route path="/contact" element={<Footer />} />
           <Route
             path="/events/PastEvents/:id"
             element={<IndividualPastEvent />}

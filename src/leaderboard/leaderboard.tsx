@@ -699,9 +699,9 @@ const Leaderboard: React.FC = () => {
             </p>
           </div>
 
-          <a 
-            href="https://chat.whatsapp.com/JhtrD6e673hKMqlxaWs1CR" 
-            target="_blank" 
+          <a
+            href="https://chat.whatsapp.com/JA9clPhV4gz3bJekLY3t9a?mode=wwc" 
+            target="_blank"
             rel="noopener noreferrer"
             className="whatsapp-btn"
             title="Join WhatsApp Group"
