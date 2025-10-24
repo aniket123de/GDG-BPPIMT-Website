@@ -87,36 +87,36 @@ const Leaderboard: React.FC = () => {
           // Calculate stats
           const above50Progress = transformedData.filter(p => p.progress >= 50).length;
           const totalBadges = transformedData.reduce((sum, p) => sum + p.badges, 0);
-          const completed = transformedData.filter(p => p.completed).length;
           const averageProgress = Math.round(transformedData.reduce((sum, p) => sum + p.progress, 0) / transformedData.length);
           
-          // Calculate tier system
+          // Calculate tier system based on skill badges completion (19 badges = 100%)
+          const skillBadgesCompleted = transformedData.filter(p => p.badges >= 19).length;
           let tier = 0;
           let tierProgress = 0;
           let nextTierThreshold = 50;
           
-          if (completed >= 100) {
+          if (skillBadgesCompleted >= 100) {
             tier = 1;
             tierProgress = 100;
             nextTierThreshold = 100;
-          } else if (completed >= 75) {
+          } else if (skillBadgesCompleted >= 75) {
             tier = 2;
-            tierProgress = Math.round((completed / 100) * 100);
+            tierProgress = Math.round((skillBadgesCompleted / 100) * 100);
             nextTierThreshold = 100;
-          } else if (completed >= 50) {
+          } else if (skillBadgesCompleted >= 50) {
             tier = 3;
-            tierProgress = Math.round((completed / 75) * 100);
+            tierProgress = Math.round((skillBadgesCompleted / 75) * 100);
             nextTierThreshold = 75;
           } else {
             tier = 0;
-            tierProgress = Math.round((completed / 50) * 100);
+            tierProgress = Math.round((skillBadgesCompleted / 50) * 100);
             nextTierThreshold = 50;
           }
           
           setStats({
             above50Progress,
             totalBadges,
-            completed,
+            completed: skillBadgesCompleted,
             averageProgress,
             tier,
             tierProgress,
@@ -174,7 +174,7 @@ const Leaderboard: React.FC = () => {
           setStats({
             above50Progress: 3,
             totalBadges: 54,
-            completed: 1,
+            completed: 1, // 1 person completed 19 skill badges
             averageProgress: 95,
             tier: 0,
             tierProgress: 2,
@@ -232,7 +232,7 @@ const Leaderboard: React.FC = () => {
       setStats({
         above50Progress: 3,
         totalBadges: 54,
-        completed: 1,
+        completed: 1, // 1 person completed 19 skill badges
         averageProgress: 95,
         tier: 0,
         tierProgress: 2,
@@ -306,7 +306,7 @@ const Leaderboard: React.FC = () => {
           bgColor: 'bg-yellow-100',
           textColor: 'text-yellow-800',
           icon: '👑',
-          description: '100+ participants completed'
+          description: '100+ participants completed 19 skill badges'
         };
       case 2:
         return {
@@ -315,7 +315,7 @@ const Leaderboard: React.FC = () => {
           bgColor: 'bg-blue-100',
           textColor: 'text-blue-800',
           icon: '🥈',
-          description: '75+ participants completed'
+          description: '75+ participants completed 19 skill badges'
         };
       case 3:
         return {
@@ -324,7 +324,7 @@ const Leaderboard: React.FC = () => {
           bgColor: 'bg-green-100',
           textColor: 'text-green-800',
           icon: '🥉',
-          description: '50+ participants completed'
+          description: '50+ participants completed 19 skill badges'
         };
       default:
         return {
@@ -494,7 +494,7 @@ const Leaderboard: React.FC = () => {
               ></div>
             </div>
             <div className="flex justify-between text-xs text-gray-500 mt-1">
-              <span>{stats.completed} completed</span>
+              <span>{stats.completed} completed 19 skill badges</span>
               <span>{stats.nextTierThreshold} needed for next tier</span>
             </div>
           </div>
@@ -508,7 +508,7 @@ const Leaderboard: React.FC = () => {
                   <p className={`font-semibold ${stats.tier === 3 ? getTierInfo(3).textColor : 'text-gray-600'}`}>
                     Tier 3 - Rising
                   </p>
-                  <p className="text-xs text-gray-500">50+ completed</p>
+                  <p className="text-xs text-gray-500">50+ completed 19 badges</p>
                 </div>
               </div>
             </div>
@@ -519,7 +519,7 @@ const Leaderboard: React.FC = () => {
                   <p className={`font-semibold ${stats.tier === 2 ? getTierInfo(2).textColor : 'text-gray-600'}`}>
                     Tier 2 - Advanced
                   </p>
-                  <p className="text-xs text-gray-500">75+ completed</p>
+                  <p className="text-xs text-gray-500">75+ completed 19 badges</p>
                 </div>
               </div>
             </div>
@@ -530,7 +530,7 @@ const Leaderboard: React.FC = () => {
                   <p className={`font-semibold ${stats.tier === 1 ? getTierInfo(1).textColor : 'text-gray-600'}`}>
                     Tier 1 - Elite
                   </p>
-                  <p className="text-xs text-gray-500">100+ completed</p>
+                  <p className="text-xs text-gray-500">100+ completed 19 badges</p>
                 </div>
               </div>
             </div>
