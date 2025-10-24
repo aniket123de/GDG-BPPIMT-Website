@@ -17,7 +17,6 @@ import {
   Award,
   ClipboardList,
   Trophy,
-  Star,
   Home,
   Users,
   Pin

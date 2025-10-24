@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaCheckCircle, FaClock, FaBan, FaPercentage, FaSearch, FaCalendarAlt, FaComments, FaStepForward, FaLightbulb, FaGlobe, FaEye, FaGift, FaStar } from 'react-icons/fa';
+import { FaCheckCircle, FaClock, FaBan, FaPercentage, FaSearch, FaCalendarAlt, FaComments, FaStepForward, FaLightbulb, FaGlobe, FaEye } from 'react-icons/fa';
 import Squares from '../components/Squares';
 
 const Rules = () => {
