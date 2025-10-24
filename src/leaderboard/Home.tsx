@@ -844,7 +844,7 @@ const RewardsSection: React.FC = () => {
           <motion.div className="tier-card tier-1" variants={cardVariants}>
             <div className="tier-badge">🥇 TIER 1</div>
             <div className="tier-image-wrapper">
-              <img src="/assets/images/tier1.png" alt="Tier 1 Rewards" className="tier-image" />
+              <img src="/tier1.png" alt="Tier 1 Rewards" className="tier-image" />
             </div>
             <div className="tier-title-wrapper">
               <h3 className="tier-title">Ultimate Prize Pack</h3>
@@ -872,7 +872,7 @@ const RewardsSection: React.FC = () => {
           <motion.div className="tier-card tier-2" variants={cardVariants}>
             <div className="tier-badge">🥈 TIER 2</div>
             <div className="tier-image-wrapper">
-              <img src="/assets/images/tier2.png" alt="Tier 2 Rewards" className="tier-image" />
+              <img src="/tier2.png" alt="Tier 2 Rewards" className="tier-image" />
             </div>
             <div className="tier-title-wrapper">
               <h3 className="tier-title">Advanced Rewards</h3>
@@ -899,7 +899,7 @@ const RewardsSection: React.FC = () => {
           <motion.div className="tier-card tier-3" variants={cardVariants}>
             <div className="tier-badge">🥉 TIER 3</div>
             <div className="tier-image-wrapper">
-              <img src="/assets/images/tier3.png" alt="Tier 3 Rewards" className="tier-image" />
+              <img src="/tier3.png" alt="Tier 3 Rewards" className="tier-image" />
             </div>
             <div className="tier-title-wrapper">
               <h3 className="tier-title">Starter Rewards</h3>
