@@ -29,7 +29,10 @@ const Leaderboard: React.FC = () => {
     above50Progress: 0,
     totalBadges: 0,
     completed: 0,
-    averageProgress: 0
+    averageProgress: 0,
+    tier: 0,
+    tierProgress: 0,
+    nextTierThreshold: 50
   });
 
   // Google Sheets CSV URL
@@ -87,11 +90,37 @@ const Leaderboard: React.FC = () => {
           const completed = transformedData.filter(p => p.completed).length;
           const averageProgress = Math.round(transformedData.reduce((sum, p) => sum + p.progress, 0) / transformedData.length);
           
+          // Calculate tier system
+          let tier = 0;
+          let tierProgress = 0;
+          let nextTierThreshold = 50;
+          
+          if (completed >= 100) {
+            tier = 1;
+            tierProgress = 100;
+            nextTierThreshold = 100;
+          } else if (completed >= 75) {
+            tier = 2;
+            tierProgress = Math.round((completed / 100) * 100);
+            nextTierThreshold = 100;
+          } else if (completed >= 50) {
+            tier = 3;
+            tierProgress = Math.round((completed / 75) * 100);
+            nextTierThreshold = 75;
+          } else {
+            tier = 0;
+            tierProgress = Math.round((completed / 50) * 100);
+            nextTierThreshold = 50;
+          }
+          
           setStats({
             above50Progress,
             totalBadges,
             completed,
-            averageProgress
+            averageProgress,
+            tier,
+            tierProgress,
+            nextTierThreshold
           });
           
           setLastUpdated(new Date().toLocaleString());
@@ -146,7 +175,10 @@ const Leaderboard: React.FC = () => {
             above50Progress: 3,
             totalBadges: 54,
             completed: 1,
-            averageProgress: 95
+            averageProgress: 95,
+            tier: 0,
+            tierProgress: 2,
+            nextTierThreshold: 50
           });
           setLastUpdated(new Date().toLocaleString());
           setLoading(false);
@@ -201,7 +233,10 @@ const Leaderboard: React.FC = () => {
         above50Progress: 3,
         totalBadges: 54,
         completed: 1,
-        averageProgress: 95
+        averageProgress: 95,
+        tier: 0,
+        tierProgress: 2,
+        nextTierThreshold: 50
       });
       setLastUpdated(new Date().toLocaleString());
       setLoading(false);
@@ -260,6 +295,47 @@ const Leaderboard: React.FC = () => {
     ];
     const index = initials.charCodeAt(0) % colors.length;
     return colors[index];
+  };
+
+  const getTierInfo = (tier: number) => {
+    switch (tier) {
+      case 1:
+        return {
+          name: 'Tier 1 - Elite',
+          color: 'from-yellow-400 to-yellow-600',
+          bgColor: 'bg-yellow-100',
+          textColor: 'text-yellow-800',
+          icon: '👑',
+          description: '100+ participants completed'
+        };
+      case 2:
+        return {
+          name: 'Tier 2 - Advanced',
+          color: 'from-blue-400 to-blue-600',
+          bgColor: 'bg-blue-100',
+          textColor: 'text-blue-800',
+          icon: '🥈',
+          description: '75+ participants completed'
+        };
+      case 3:
+        return {
+          name: 'Tier 3 - Rising',
+          color: 'from-green-400 to-green-600',
+          bgColor: 'bg-green-100',
+          textColor: 'text-green-800',
+          icon: '🥉',
+          description: '50+ participants completed'
+        };
+      default:
+        return {
+          name: 'No Tier',
+          color: 'from-gray-400 to-gray-600',
+          bgColor: 'bg-gray-100',
+          textColor: 'text-gray-800',
+          icon: '🚀',
+          description: 'Working towards Tier 3'
+        };
+    }
   };
 
   const exportToCSV = () => {
@@ -396,26 +472,71 @@ const Leaderboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Auto-refresh notification */}
-        {autoRefresh && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <div className="flex items-center">
-              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-                <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd"/>
-                </svg>
+        {/* Tier System Progress */}
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-6">
+          <div className="flex items-center mb-4">
+            <span className="text-2xl mr-3">{getTierInfo(stats.tier).icon}</span>
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">{getTierInfo(stats.tier).name}</h2>
+              <p className="text-gray-600">{getTierInfo(stats.tier).description}</p>
+            </div>
+          </div>
+          
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium text-gray-700">Progress to Next Tier</span>
+              <span className="text-sm font-bold text-gray-900">{stats.tierProgress}%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-3">
+              <div
+                className={`h-3 rounded-full bg-gradient-to-r ${getTierInfo(stats.tier).color} transition-all duration-1000 ease-out`}
+                style={{ width: `${stats.tierProgress}%` }}
+              ></div>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <span>{stats.completed} completed</span>
+              <span>{stats.nextTierThreshold} needed for next tier</span>
+            </div>
+          </div>
+
+          {/* Tier Requirements */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className={`p-3 rounded-lg ${stats.tier === 3 ? getTierInfo(3).bgColor : 'bg-gray-100'}`}>
+              <div className="flex items-center">
+                <span className="text-lg mr-2">🥉</span>
+                <div>
+                  <p className={`font-semibold ${stats.tier === 3 ? getTierInfo(3).textColor : 'text-gray-600'}`}>
+                    Tier 3 - Rising
+                  </p>
+                  <p className="text-xs text-gray-500">50+ completed</p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-sm font-semibold text-blue-900">Auto-Refreshing Data</h3>
-                <p className="text-sm text-blue-700">This leaderboard automatically updates every 60 seconds to show the latest progress.</p>
-                <div className="flex items-center mt-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                  <span className="text-xs text-blue-600">Auto-refreshing every 60s</span>
+            </div>
+            <div className={`p-3 rounded-lg ${stats.tier === 2 ? getTierInfo(2).bgColor : 'bg-gray-100'}`}>
+              <div className="flex items-center">
+                <span className="text-lg mr-2">🥈</span>
+                <div>
+                  <p className={`font-semibold ${stats.tier === 2 ? getTierInfo(2).textColor : 'text-gray-600'}`}>
+                    Tier 2 - Advanced
+                  </p>
+                  <p className="text-xs text-gray-500">75+ completed</p>
+                </div>
+              </div>
+            </div>
+            <div className={`p-3 rounded-lg ${stats.tier === 1 ? getTierInfo(1).bgColor : 'bg-gray-100'}`}>
+              <div className="flex items-center">
+                <span className="text-lg mr-2">👑</span>
+                <div>
+                  <p className={`font-semibold ${stats.tier === 1 ? getTierInfo(1).textColor : 'text-gray-600'}`}>
+                    Tier 1 - Elite
+                  </p>
+                  <p className="text-xs text-gray-500">100+ completed</p>
                 </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
+
 
         {/* All Students Progress Section */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
@@ -629,6 +750,27 @@ const Leaderboard: React.FC = () => {
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+
+          {/* Auto-refresh notification */}
+          {autoRefresh && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                  <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-blue-900">Auto-Refreshing Data</h3>
+                  <p className="text-sm text-blue-700">This leaderboard automatically updates every 60 seconds to show the latest progress.</p>
+                  <div className="flex items-center mt-1">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    <span className="text-xs text-blue-600">Auto-refreshing every 60s</span>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
