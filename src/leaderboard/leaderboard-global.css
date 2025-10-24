@@ -1,0 +1,25 @@
+/* Leaderboard Pages Global Styles - Google Sans Font */
+
+/* Apply Google Sans font to all leaderboard pages */
+.leaderboard-page,
+.leaderboard-page * {
+  font-family: 'GSD-Regular', 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+/* Bold text uses GSD-Bold */
+.leaderboard-page strong,
+.leaderboard-page b,
+.leaderboard-page h1,
+.leaderboard-page h2,
+.leaderboard-page h3,
+.leaderboard-page h4,
+.leaderboard-page h5,
+.leaderboard-page h6 {
+  font-family: 'GSD-Bold', 'Google Sans', sans-serif !important;
+}
+
+/* Ensure font-weight is respected */
+.leaderboard-page {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,12 +1,10 @@
 import { motion } from 'framer-motion';
 import { FaCheckCircle, FaClock, FaBan, FaPercentage, FaSearch, FaCalendarAlt, FaComments, FaStepForward, FaLightbulb, FaGlobe, FaEye, FaGift, FaStar } from 'react-icons/fa';
-import { Footer } from '../components';
 import Squares from '../components/Squares';
-import AmongUsButton from '../components/AmongUsButton';
 
 const Rules = () => {
     return (
-        <div className="min-h-screen bg-white font-GSD_Regular relative overflow-hidden">
+        <div className="min-h-screen bg-white font-GSD_Regular relative overflow-hidden pb-24">
             {/* Squares grid background */}
             <div className="absolute inset-0 z-0">
                 <Squares
@@ -468,11 +466,6 @@ const Rules = () => {
                     <FaGift className="text-white" />
                 </button>
             </motion.div>
-
-            {/* Footer */}
-            <div className="relative z-20 bg-white">
-                <Footer />
-            </div>
         </div>
     );
 };

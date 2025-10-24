@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { Link } from 'react-router-dom';
 
 /**
  * Home.tsx
@@ -10,12 +11,10 @@ import { useInView } from 'react-intersection-observer';
  */
 
 const inlineStyles = `
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap');
-
 :root { --bg: #ffffff; }
 *{box-sizing:border-box;margin:0;padding:0}
-body{margin:0;font-family:Roboto, sans-serif}
-.allinone-root{font-family:Roboto, sans-serif; background:#fff; color:#202124; min-height:100vh;position:relative}
+body{margin:0;font-family:'GSD-Regular', 'Google Sans', sans-serif}
+.allinone-root{font-family:'GSD-Regular', 'Google Sans', sans-serif; background:#fff; color:#202124; min-height:100vh;position:relative}
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
@@ -52,7 +51,7 @@ body{margin:0;font-family:Roboto, sans-serif}
 .container{max-width:1200px;margin:0 auto;padding:0 2rem}
 
 /* Stats Section */
-.stats-section{position:relative;z-index:10;padding:6rem 0 4rem;margin-top:110px}
+.stats-section{position:relative;z-index:10;padding:6rem 0 4rem;margin-top:2rem}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem;margin-bottom:4rem}
 .stat-card{background:#ffffff;backdrop-filter:blur(10px);border-radius:24px;padding:2.5rem 2rem;display:flex;flex-direction:row;align-items:center;gap:1.5rem;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);border:1px solid #e8eaed;box-shadow:0 1px 3px rgba(60,64,67,0.15),0 4px 8px rgba(60,64,67,0.1);position:relative;overflow:hidden}
 .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:24px;padding:2px;background:linear-gradient(135deg,#4285f4,#34a853,#fbbc04,#ea4335);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;opacity:0;transition:opacity 0.4s ease}
@@ -62,7 +61,7 @@ body{margin:0;font-family:Roboto, sans-serif}
 .stat-card:hover .stat-icon{transform:rotate(360deg);box-shadow:0 12px 32px rgba(66,133,244,0.6),0 0 40px rgba(66,133,244,0.3)}
 .stat-icon svg{filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));width:45px;height:45px}
 .stat-content{text-align:left;flex:1}
-.stat-value{font-size:3rem;font-weight:700;color:#202124;margin-bottom:0.5rem;font-family:'Google Sans',sans-serif;line-height:1}
+.stat-value{font-size:3rem;font-weight:700;color:#202124;margin-bottom:0.5rem;font-family:'GSD-Bold', 'Google Sans',sans-serif;line-height:1}
 .stat-label{font-size:1.15rem;font-weight:500;color:#202124;margin-bottom:0.25rem;line-height:1.2}
 .stat-sublabel{font-size:0.95rem;color:#5f6368;font-weight:400;line-height:1.2}
 .percent-sign{font-size:2rem;margin-left:0.1rem}
@@ -76,7 +75,7 @@ body{margin:0;font-family:Roboto, sans-serif}
 .circular-progress{filter:drop-shadow(0 4px 12px rgba(212,160,23,0.4))}
 .circular-progress-bg{opacity:1}
 .circular-progress-fill{filter:drop-shadow(0 0 12px rgba(212,160,23,0.9))}
-.circular-progress-text{font-family:'Google Sans',sans-serif;filter:drop-shadow(0 2px 6px rgba(212,160,23,0.8))}
+.circular-progress-text{font-family:'GSD-Bold', 'Google Sans',sans-serif;filter:drop-shadow(0 2px 6px rgba(212,160,23,0.8))}
 .circular-label{font-size:1.15rem !important;color:#d4a017;text-shadow:0 2px 6px rgba(212,160,23,0.6);font-weight:600}
 
 /* Rewards Section */
@@ -172,7 +171,7 @@ body{margin:0;font-family:Roboto, sans-serif}
   .subtitle{font-size:0.8rem;line-height:1.5;padding:0 0.5rem}
   .whatsapp-btn{order:2;align-self:center;padding:0.75rem 1.5rem;font-size:0.9rem}
   .whatsapp-btn svg{width:20px;height:20px}
-  .stats-section{padding:3rem 0;margin-top:160px}
+  .stats-section{padding:3rem 0;margin-top:2rem}
   .container{padding:0 1rem}
   .stats-grid{grid-template-columns:1fr;gap:1.25rem}
   .stat-card{padding:2rem 1.5rem;flex-direction:column;text-align:center}
@@ -215,7 +214,7 @@ body{margin:0;font-family:Roboto, sans-serif}
   .subtitle{font-size:0.75rem;line-height:1.4}
   .whatsapp-btn{padding:0.65rem 1.25rem;font-size:0.85rem}
   .whatsapp-btn svg{width:18px;height:18px}
-  .stats-section{padding:2rem 0;margin-top:180px}
+  .stats-section{padding:2rem 0;margin-top:2rem}
   .stats-grid{gap:1rem}
   .stat-card{padding:1.5rem 1.25rem}
   .stat-value{font-size:2.25rem}
@@ -329,6 +328,9 @@ const ParticleBackground: React.FC = () => {
 };
 
 // ----------------------- Header -----------------------
+// Note: Header component is kept for reference but not used in the main export
+// The main website's Navbar is used instead via App.tsx
+// @ts-ignore - Unused component kept for reference
 const Header: React.FC = () => {
   const [participantCount] = useState(153);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -944,6 +946,9 @@ const RewardsSection: React.FC = () => {
 };
 
 // ----------------------- Footer & Floating -----------------------
+// Note: Footer component is kept for reference but not used in the main export
+// The main website's Footer is used instead via App.tsx
+// @ts-ignore - Unused component kept for reference
 const Footer: React.FC = () => (
   <footer className="footer">
     <div className="container">
@@ -956,12 +961,12 @@ const Footer: React.FC = () => (
         <div className="footer-links">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="/">Home</a></li>
+            <li><Link to="/">Home</Link></li>
             <li><a href="#rewardsSection">Rewards</a></li>
-            <li><a href="/syllabus">Syllabus</a></li>
-            <li><a href="/winners">Winners</a></li>
-            <li><a href="/leaderboard">Leaderboard</a></li>
-            <li><a href="/rules">Rules & Guidelines</a></li>
+            <li><Link to="/syllabus">Syllabus</Link></li>
+            <li><Link to="/winners">Winners</Link></li>
+            <li><Link to="/leaderboard/table">Leaderboard</Link></li>
+            <li><Link to="/rules">Rules & Guidelines</Link></li>
           </ul>
         </div>
         <div className="footer-social">
@@ -1005,30 +1010,33 @@ const FloatingRewardsButton: React.FC = () => {
   );
 };
 
+// Note: FloatingNavbar has been moved to a separate component (FloatingNavbar.tsx)
+// It's now rendered globally in App.tsx for all leaderboard pages
+// @ts-ignore - Unused component kept for reference
 const FloatingNavbar: React.FC = () => {
   return (
     <nav className="floating-navbar" aria-label="Quick Navigation">
       <div className="floating-nav-content">
-        <a href="/" className="floating-nav-item active" title="Home">
+        <Link to="/leaderboard" className="floating-nav-item active" title="Home">
           <span className="floating-nav-icon">🏠</span>
           <span className="floating-nav-label">Home</span>
-        </a>
-        <a href="/syllabus" className="floating-nav-item" title="Syllabus">
+        </Link>
+        <Link to="/syllabus" className="floating-nav-item" title="Syllabus">
           <span className="floating-nav-icon">📚</span>
           <span className="floating-nav-label">Syllabus</span>
-        </a>
-        <a href="/leaderboard" className="floating-nav-item" title="Leaderboard">
+        </Link>
+        <Link to="/leaderboard/table" className="floating-nav-item" title="Leaderboard">
           <span className="floating-nav-icon">📈</span>
           <span className="floating-nav-label">Leaderboard</span>
-        </a>
-        <a href="/winners" className="floating-nav-item" title="Winners">
+        </Link>
+        <Link to="/winners" className="floating-nav-item" title="Winners">
           <span className="floating-nav-icon">🏆</span>
           <span className="floating-nav-label">Winners</span>
-        </a>
-        <a href="/rules" className="floating-nav-item" title="Completion Guide">
+        </Link>
+        <Link to="/rules" className="floating-nav-item" title="Completion Guide">
           <span className="floating-nav-icon">📋</span>
           <span className="floating-nav-label">Guide</span>
-        </a>
+        </Link>
       </div>
     </nav>
   );
@@ -1040,12 +1048,9 @@ const Home: React.FC = () => {
   return (
     <div className="allinone-root">
       <ParticleBackground />
-      <Header />
       <StatsSection />
       <RewardsSection />
-      <Footer />
       <FloatingRewardsButton />
-      <FloatingNavbar />
     </div>
   );
 };

@@ -56,7 +56,7 @@ const Winners = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pb-24">
       {/* Header Section */}
       <div className="relative px-4 py-8 md:py-12">
         {/* Navigation Icons */}

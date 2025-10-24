@@ -46,10 +46,10 @@ const Navbar = () => {
           Team
         </button>
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+          className="text-gray-800 nav-links relative"
           onClick={() => navigate("/leaderboard")}
         >
-          📊 Leaderboard
+          Leaderboard
         </button>
         {/* <button
           className="text-gray-800 nav-links relative"
