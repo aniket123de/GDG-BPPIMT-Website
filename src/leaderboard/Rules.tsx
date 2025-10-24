@@ -439,33 +439,6 @@ const Rules = () => {
                     </div>
                 </div>
             </div>
-
-
-
-            {/* Floating Rewards Button */}
-            <motion.div
-                className="fixed bottom-8 right-8 z-50"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                animate={{
-                    y: [0, -10, 0]
-                }}
-                transition={{
-                    y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-                }}
-            >
-                <button
-                    className="bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-3 rounded-full font-semibold shadow-lg border-2 border-black flex items-center gap-2 transition-all duration-300"
-                    onClick={() => {
-                        // TODO: Add rewards page redirect
-                        console.log('Rewards button clicked');
-                    }}
-                >
-                    <FaStar className="text-white" />
-                    <span>Rewards</span>
-                    <FaGift className="text-white" />
-                </button>
-            </motion.div>
         </div>
     );
 };

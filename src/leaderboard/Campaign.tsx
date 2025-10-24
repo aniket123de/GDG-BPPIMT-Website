@@ -548,15 +548,6 @@ const SyllabusPage: React.FC = () => {
             ))}
           </div>
         </div>
-
-        {/* Rewards Button */}
-         {/* Rectified: Adjusted position slightly for floating nav */}
-        <div className="fixed bottom-20 right-5 z-40">
-          <button className="group bg-yellow-400 hover:bg-yellow-500 text-black px-5 py-2.5 rounded-full font-semibold flex items-center space-x-1.5 shadow-md transition-all hover:scale-105 hover:shadow-lg">
-            <Star className="w-4 h-4 fill-current" />
-            <span className="text-sm">Rewards</span>
-          </button>
-        </div>
       </div>
     </div>
   );

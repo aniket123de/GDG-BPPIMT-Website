@@ -421,13 +421,6 @@ const Winners = () => {
             </button>
           </div>
       </div>
-
-      {/* Rewards Button */}
-      <div className="fixed bottom-20 right-4">
-        <Button className="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-3 rounded-full font-bold shadow-lg">
-          ⭐ Rewards
-        </Button>
-      </div>
     </div>
   );
 };
