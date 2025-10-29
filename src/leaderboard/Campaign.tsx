@@ -404,7 +404,7 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
                     <span className="font-medium text-gray-700 text-sm">{lab.title}</span>
                     {/* Show REQUIRED only if title includes "Challenge" */}
                     {lab.title.includes("Challenge Lab") && (
-  s                   <span className="px-2 py-0.5 text-xs font-bold text-red-700 bg-red-100 rounded-full">REQUIRED</span>
+                    <span className="px-2 py-0.5 text-xs font-bold text-red-700 bg-red-100 rounded-full">REQUIRED</span>
                     )}
                   </div>
                   <div className="flex space-x-2">
@@ -554,6 +554,7 @@ const SyllabusPage: React.FC = () => {
 };
 
 export default SyllabusPage;
+
 
 
 
