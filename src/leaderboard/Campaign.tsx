@@ -58,7 +58,7 @@ const syllabusData: SyllabusCategory[] = [
         title: 'The Basics of Google Cloud Compute: Challenge Lab',
         coursePageUrl: 'https://www.cloudskillsboost.google/course_templates/754',
         labs: [
-          { title: 'Creating a Virtual Machine', required: true, startLabUrl: 'https://www.cloudskillsboost.google/focuses/3563?parent=catalog', solutionUrl: 'https://youtu.be/oUnQLeuEDs8?si=AOBSgVRYknbJLoZi' },
+          { title: 'Creating a Virtual Machine', required: true, startLabUrl: 'https://www.cloudskillsboost.google/focuses/3563?parent=catalog', solutionUrl: 'https://www.youtube.com/watch?v=7V-mguPUw5w' },
           { title: 'Creating a Persistent Disk', required: true, startLabUrl: 'https://www.cloudskillsboost.google/course_templates/754/labs/584201', solutionUrl: 'https://youtu.be/oUnQLeuEDs8?si=AOBSgVRYknbJLoZi' },
           { title: 'Hosting a Web App on Google Cloud Using Compute Engine', required: true, startLabUrl: 'https://www.cloudskillsboost.google/course_templates/754/labs/584202', solutionUrl: 'https://youtu.be/um0RpF0k070?si=TN5Lybcdg7PfqX9k' },
           { title: '⚡ The Basics of Google Cloud Compute: Challenge Lab', required: true, startLabUrl: 'https://www.cloudskillsboost.google/course_templates/754/labs/584203', solutionUrl: 'https://youtu.be/1F5hAre_YOU?si=NCrAC8Rs8yKlPiET' }
@@ -554,6 +554,7 @@ const SyllabusPage: React.FC = () => {
 };
 
 export default SyllabusPage;
+
 
 
 
