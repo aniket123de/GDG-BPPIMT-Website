@@ -1,5 +1,7 @@
 import { Button } from '../components/ui/button';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Papa from 'papaparse';
 
 interface Winner {
   id: number;
@@ -7,51 +9,93 @@ interface Winner {
   avatar: string;
   rank: number;
   badge?: string;
+  proofSent?: boolean;
 }
 
 const Winners = () => {
-  // Sample winners data - replace with actual data
-  const winners: Winner[] = [
-    {
-      id: 1,
-      name: "John Doe",
-      avatar: "https://via.placeholder.com/120x120/4285F4/FFFFFF?text=1",
-      rank: 1,
-      badge: "🥇"
-    },
-    {
-      id: 2,
-      name: "Jane Smith", 
-      avatar: "https://via.placeholder.com/120x120/34A853/FFFFFF?text=2",
-      rank: 2,
-      badge: "🥈"
-    },
-    {
-      id: 3,
-      name: "Mike Johnson",
-      avatar: "https://via.placeholder.com/120x120/EA4335/FFFFFF?text=3", 
-      rank: 3,
-      badge: "🥉"
-    },
-    {
-      id: 4,
-      name: "Sarah Wilson",
-      avatar: "https://via.placeholder.com/120x120/FBBC04/FFFFFF?text=4",
-      rank: 4
-    },
-    {
-      id: 5,
-      name: "Alex Brown",
-      avatar: "https://via.placeholder.com/120x120/4285F4/FFFFFF?text=5",
-      rank: 5
-    },
-    {
-      id: 6,
-      name: "Emma Davis",
-      avatar: "https://via.placeholder.com/120x120/34A853/FFFFFF?text=6",
-      rank: 6
-    }
-  ];
+  const [winners, setWinners] = useState<Winner[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<string>('');
+
+  // Google Sheets CSV URL
+  const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpmW5aXF3MXdxw-tvh7C7L8lYBWCs23jFwBztWGMzqxhf_syNYLf7fkKWgg3wnw1jkEeSKHpIEDpDo/pub?output=csv";
+
+  useEffect(() => {
+    const fetchWinners = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(SHEET_CSV_URL);
+        const csv = await response.text();
+        
+        Papa.parse(csv, {
+          header: true,
+          complete: (results) => {
+            const participants = results.data.map((row: any) => {
+              const name = row['User Name'] || row['Name'] || row['Student Name'] || '';
+              const badges = parseInt(row['# of Skill Badges Completed'] || row['Badges'] || '0');
+              const arcadeGames = parseInt(row['# of Arcade Games Completed'] || '0');
+              const totalScore = badges + arcadeGames;
+              const completed = totalScore >= 20;
+              const proofSent = row['Access Code Redemption Status'] === 'Redeemed' || 
+                              row['Profile URL Status'] === 'Valid';
+              
+              return {
+                name,
+                badges,
+                arcadeGames,
+                totalScore,
+                completed,
+                proofSent
+              };
+            });
+
+            // Log for debugging
+            console.log('Total participants:', participants.length);
+            console.log('Completed 20/20:', participants.filter((p: any) => p.completed).length);
+            console.log('Proof sent:', participants.filter((p: any) => p.proofSent).length);
+            console.log('Both completed AND proof sent:', participants.filter((p: any) => p.completed && p.proofSent).length);
+
+            // Filter winners - show those who completed 20/20 (proof sent is optional for now)
+            const qualifiedWinners = participants
+              .filter((p: any) => p.completed && p.name) // Only require completion, not proof
+              .slice(0, 12) // Get top 12 winners
+              .map((p: any, index: number) => ({
+                id: index + 1,
+                name: p.name,
+                avatar: '',
+                rank: index + 1,
+                badge: index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : undefined,
+                proofSent: p.proofSent
+              }));
+
+            console.log('Qualified winners:', qualifiedWinners.length);
+
+            setWinners(qualifiedWinners);
+            setLastUpdated(new Date().toLocaleString());
+            setLoading(false);
+          },
+          error: (error: any) => {
+            console.error('Error parsing CSV:', error);
+            // Fallback to empty array
+            setWinners([]);
+            setLastUpdated(new Date().toLocaleString());
+            setLoading(false);
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setWinners([]);
+        setLastUpdated(new Date().toLocaleString());
+        setLoading(false);
+      }
+    };
+
+    fetchWinners();
+    
+    // Auto-refresh every 60 seconds
+    const interval = setInterval(fetchWinners, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white pb-24">
@@ -105,7 +149,16 @@ const Winners = () => {
         {/* Last Updated */}
         <div className="flex justify-center mb-12">
           <div className="bg-gray-100 border border-gray-300 rounded-full px-6 py-3 text-gray-700">
-            Winners will be updated soon
+            {loading ? (
+              <div className="flex items-center gap-2">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+                Loading winners...
+              </div>
+            ) : lastUpdated ? (
+              `Last updated: ${lastUpdated}`
+            ) : (
+              'Winners will be updated soon'
+            )}
           </div>
         </div>
       </div>
@@ -113,81 +166,80 @@ const Winners = () => {
       {/* Winners Grid */}
       <div className="px-4 pb-24">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-3 gap-4 md:gap-6">
-            {winners.map((winner) => (
-              <div
-                key={winner.id}
-                className={`relative bg-gray-50 border-2 rounded-3xl p-6 text-center transition-all duration-300 hover:shadow-xl aspect-[3/4] flex flex-col justify-between ${
-                  winner.rank === 1 
-                    ? 'border-yellow-500' 
-                    : winner.rank === 2 
-                    ? 'border-gray-400'
-                    : winner.rank === 3
-                    ? 'border-orange-500'
-                    : 'border-gray-300'
-                }`}
-              >
-                {/* Rank Badge */}
-                <div className="absolute -top-3 -left-3">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg ${
-                    winner.rank === 1 
-                      ? 'bg-yellow-500' 
-                      : winner.rank === 2 
-                      ? 'bg-gray-500'
-                      : winner.rank === 3
-                      ? 'bg-orange-500'
-                      : 'bg-blue-500'
-                  }`}>
-                    {winner.rank}
-                  </div>
-                </div>
-
-                {/* Medal Badge for Top 3 */}
-                {winner.badge && (
-                  <div className="absolute -top-3 -right-3">
-                    <div className="w-10 h-10 rounded-full bg-orange-400 border-2 border-orange-300 flex items-center justify-center text-xl">
-                      {winner.badge}
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-500 mb-4"></div>
+              <p className="text-gray-600 text-lg">Loading winners...</p>
+            </div>
+          ) : winners.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="text-6xl mb-4">🎯</div>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">No Winners Yet!</h3>
+              <p className="text-gray-600 text-lg mb-6">Be the first to complete all 20 courses and send proof!</p>
+              <Link to="/leaderboard/table">
+                <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full font-semibold">
+                  View Leaderboard
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-4 md:gap-6">
+              {winners.map((winner) => (
+                <div
+                  key={winner.id}
+                  className="relative bg-gray-50 border-2 border-gray-300 rounded-3xl p-6 text-center transition-all duration-300 hover:shadow-xl aspect-[3/4] flex flex-col justify-between"
+                >
+                  <div className="flex-1 flex flex-col justify-center items-center">
+                    {/* Avatar with Initials */}
+                    <div className="mb-4">
+                      <div className={`w-20 h-20 rounded-full flex items-center justify-center text-white font-bold text-2xl border-4 ${
+                        winner.rank === 1 
+                          ? 'bg-gradient-to-br from-yellow-400 to-orange-500 border-yellow-400' 
+                          : winner.rank === 2 
+                          ? 'bg-gradient-to-br from-gray-400 to-gray-600 border-gray-400'
+                          : winner.rank === 3
+                          ? 'bg-gradient-to-br from-orange-400 to-red-500 border-orange-400'
+                          : 'bg-gradient-to-br from-blue-400 to-purple-500 border-blue-400'
+                      }`}>
+                        {winner.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                      </div>
                     </div>
-                  </div>
-                )}
 
-                <div className="flex-1 flex flex-col justify-center items-center">
-                  {/* Avatar with Initials */}
-                  <div className="mb-4">
-                    <div className={`w-20 h-20 rounded-full flex items-center justify-center text-white font-bold text-2xl border-4 ${
-                      winner.rank === 1 
-                        ? 'bg-gradient-to-br from-yellow-400 to-orange-500 border-yellow-400' 
-                        : winner.rank === 2 
-                        ? 'bg-gradient-to-br from-gray-400 to-gray-600 border-gray-400'
-                        : winner.rank === 3
-                        ? 'bg-gradient-to-br from-orange-400 to-red-500 border-orange-400'
-                        : 'bg-gradient-to-br from-blue-400 to-purple-500 border-blue-400'
-                    }`}>
-                      {winner.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                    {/* Name */}
+                    <h3 className="font-bold text-lg text-gray-800 mb-4 leading-tight">
+                      {winner.name}
+                    </h3>
+                  </div>
+
+                  {/* Status Buttons */}
+                  <div className="space-y-2">
+                    <div className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                      ✓ 19 + 1 = 20 Done
                     </div>
+                    {winner.proofSent ? (
+                      <>
+                        <div className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                          ✓ Proof Sent
+                        </div>
+                        <div className="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">
+                          SWAG CONFIRMED ✓
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                          ⏳ Proof Pending
+                        </div>
+                        <div className="bg-gray-400 text-white px-4 py-2 rounded-full text-sm font-bold">
+                          Send Proof for Swag
+                        </div>
+                      </>
+                    )}
                   </div>
-
-                  {/* Name */}
-                  <h3 className="font-bold text-lg text-gray-800 mb-4 leading-tight">
-                    {winner.name}
-                  </h3>
                 </div>
-
-                {/* Status Buttons */}
-                <div className="space-y-2">
-                  <div className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                    ✓ 19 + 1 = 20 Done
-                  </div>
-                  <div className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                    ✓ Proof Sent
-                  </div>
-                  <div className="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">
-                    SWAG CONFIRMED ✓
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
