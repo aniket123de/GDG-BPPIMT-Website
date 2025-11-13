@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Papa from 'papaparse';
 
@@ -19,10 +19,20 @@ interface Participant {
 // ----------------------- Particle Background -----------------------
 const ParticleBackground: React.FC = () => {
   const ref = useRef<HTMLCanvasElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     const canvas = ref.current;
-    if (!canvas) return;
+    if (!canvas || isMobile) return; // Skip particles on mobile
+    
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -39,14 +49,25 @@ const ParticleBackground: React.FC = () => {
 
     type P = { x:number;y:number;vx:number;vy:number;r:number };
     const particles: P[] = [];
-    const count = 80;
-    for (let i=0;i<count;i++) particles.push({ x: Math.random()*canvasEl.width, y: Math.random()*canvasEl.height, vx:(Math.random()-0.5)*0.6, vy:(Math.random()-0.5)*0.6, r: Math.random()*2+1 });
+    // Reduce particle count for better performance
+    const count = window.innerWidth > 1200 ? 50 : 30;
+    for (let i=0;i<count;i++) particles.push({ x: Math.random()*canvasEl.width, y: Math.random()*canvasEl.height, vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4, r: Math.random()*1.5+0.5 });
 
-    const colors = ['rgba(66,133,244,0.45)','rgba(52,168,83,0.45)','rgba(251,188,4,0.45)','rgba(234,67,53,0.45)'];
-    const maxDist = 150;
+    const colors = ['rgba(66,133,244,0.25)','rgba(52,168,83,0.25)','rgba(251,188,4,0.25)','rgba(234,67,53,0.25)'];
+    const maxDist = 120;
 
     let raf = 0;
-    function loop(){
+    let lastTime = 0;
+    const targetFPS = 30; // Limit FPS for better performance
+    const frameInterval = 1000 / targetFPS;
+    
+    function loop(currentTime: number){
+      if (currentTime - lastTime < frameInterval) {
+        raf = requestAnimationFrame(loop);
+        return;
+      }
+      lastTime = currentTime;
+      
       ctx2.clearRect(0,0,canvasEl.width,canvasEl.height);
       for (let i=0;i<particles.length;i++){
         const p = particles[i];
@@ -55,25 +76,32 @@ const ParticleBackground: React.FC = () => {
         if (p.y < 0 || p.y > canvasEl.height) p.vy *= -1;
         ctx2.beginPath(); ctx2.arc(p.x,p.y,p.r,0,Math.PI*2);
         ctx2.fillStyle = colors[i % colors.length];
-        ctx2.shadowBlur = 6; ctx2.shadowColor = colors[i % colors.length];
-        ctx2.fill(); ctx2.shadowBlur = 0;
-        for (let j=i+1;j<particles.length;j++){
+        ctx2.fill();
+        
+        // Reduce connection calculations for performance
+        for (let j=i+1;j<Math.min(i+5, particles.length);j++){
           const q = particles[j];
           const dx = q.x-p.x; const dy = q.y-p.y; const d = Math.hypot(dx,dy);
           if (d < maxDist) {
-            const op = 0.25*(1-d/maxDist);
-            const g = ctx2.createLinearGradient(p.x,p.y,q.x,q.y);
-            g.addColorStop(0, colors[i%colors.length].replace('0.45', String(op)));
-            g.addColorStop(1, colors[j%colors.length].replace('0.45', String(op)));
-            ctx2.strokeStyle = g; ctx2.lineWidth = 0.8; ctx2.beginPath(); ctx2.moveTo(p.x,p.y); ctx2.lineTo(q.x,q.y); ctx2.stroke();
+            const op = 0.15*(1-d/maxDist);
+            ctx2.strokeStyle = `rgba(66,133,244,${op})`;
+            ctx2.lineWidth = 0.5; ctx2.beginPath(); ctx2.moveTo(p.x,p.y); ctx2.lineTo(q.x,q.y); ctx2.stroke();
           }
         }
       }
       raf = requestAnimationFrame(loop);
     }
-    loop();
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
-  }, []);
+    raf = requestAnimationFrame(loop);
+    
+    return () => { 
+      cancelAnimationFrame(raf); 
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, [isMobile]);
+
+  // Don't render canvas on mobile
+  if (isMobile) return null;
 
   return <canvas ref={ref} className="particle-canvas" aria-hidden />;
 };
@@ -86,7 +114,8 @@ const Leaderboard: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<string>('');
   const [autoRefresh] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(50);
+  const [itemsPerPage, setItemsPerPage] = useState(25); // Start with fewer items for better mobile performance
+  const [isMobile, setIsMobile] = useState(false);
   const [stats, setStats] = useState({
     above50Progress: 0,
     totalBadges: 0,
@@ -96,6 +125,16 @@ const Leaderboard: React.FC = () => {
     tierProgress: 0,
     nextTierThreshold: 50
   });
+
+  // Check if device is mobile for performance optimizations
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Inject styles helper
   const useInjectStyles = (css: string) => {
@@ -175,6 +214,16 @@ const Leaderboard: React.FC = () => {
     }
 
     @media (max-width: 768px) {
+      /* Disable heavy animations on mobile for performance */
+      .stat-card{animation:none !important;transition:none !important}
+      .stat-card:hover{transform:none !important;animation:none !important}
+      .stat-card:hover .stat-icon{transform:none !important;animation:none !important}
+      .stat-card::before{display:none !important}
+      .leaderboard-table:hover{transform:none !important}
+      .main-heading{animation:none !important}
+      .subtitle{animation:none !important}
+      .whatsapp-btn{animation:none !important}
+      
       .header{padding:1rem 0}
       .header-content{padding:0 1rem;flex-direction:column;gap:1.25rem}
       .logo-section{width:100%;justify-content:center;gap:1rem}
@@ -555,12 +604,13 @@ const Leaderboard: React.FC = () => {
   useEffect(() => {
     fetchData();
     
-    // Auto-refresh every 60 seconds
+    // Auto-refresh - longer interval on mobile for better performance
+    const refreshInterval = isMobile ? 120000 : 60000; // 2 minutes on mobile, 1 minute on desktop
     const interval = setInterval(() => {
       if (autoRefresh) {
         fetchData();
       }
-    }, 60000);
+    }, refreshInterval);
 
     return () => clearInterval(interval);
   }, [autoRefresh]);
@@ -588,6 +638,10 @@ const Leaderboard: React.FC = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, filter]);
+
+  // Memoize filtered data for better performance
+  const filteredDataMemo = useMemo(() => filteredData, [data, searchTerm, filter]);
+  const paginatedDataMemo = useMemo(() => paginatedData, [filteredDataMemo, currentPage, itemsPerPage]);
 
   const getRankIcon = (rank: number) => {
     if (rank === 1) return '🥇';
@@ -988,76 +1042,91 @@ const Leaderboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {paginatedData.map((participant, index) => (
-                    <motion.tr
-                      key={`${participant.email}-${participant.rank}-${index}`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="border-b border-gray-100 hover:bg-gray-50"
-                    >
-                      <td className="py-4 px-4">
-                        <div className="flex items-center">
-                          <span className="text-lg font-bold text-gray-900 mr-2">
-                            {participant.rank}
+                  {paginatedDataMemo.map((participant, index) => {
+                    const rowContent = (
+                      <>
+                        <td className="py-4 px-4">
+                          <div className="flex items-center">
+                            <span className="text-lg font-bold text-gray-900 mr-2">
+                              {participant.rank}
+                            </span>
+                            {getRankIcon(participant.rank) && (
+                              <span className="text-xl">{getRankIcon(participant.rank)}</span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex items-center">
+                            <div className={`w-10 h-10 ${getInitialsColor(participant.initials)} rounded-full flex items-center justify-center text-white font-semibold text-sm mr-3`}>
+                              {participant.initials}
+                            </div>
+                            <div>
+                              <p className="font-semibold text-gray-900">{participant.name}</p>
+                              <p className="text-sm text-gray-500">{participant.email}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="w-24 bg-gray-200 rounded-full h-2">
+                            <div
+                              className={`bg-green-500 h-2 rounded-full ${!isMobile ? 'transition-all duration-500' : ''}`}
+                              style={{ width: `${participant.progress}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-sm text-gray-600 ml-2">{participant.progress}%</span>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className="text-lg font-semibold text-gray-900">{participant.badges}</span>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className="text-lg font-semibold text-gray-900">{participant.score - participant.badges}</span>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className="text-lg font-semibold text-gray-900">{participant.score}/{participant.total}</span>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            participant.completed 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {participant.completed ? 'Yes' : 'No'}
                           </span>
-                          {getRankIcon(participant.rank) && (
-                            <span className="text-xl">{getRankIcon(participant.rank)}</span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="py-4 px-4">
-                        <div className="flex items-center">
-                          <div className={`w-10 h-10 ${getInitialsColor(participant.initials)} rounded-full flex items-center justify-center text-white font-semibold text-sm mr-3`}>
-                            {participant.initials}
-                          </div>
-                          <div>
-                            <p className="font-semibold text-gray-900">{participant.name}</p>
-                            <p className="text-sm text-gray-500">{participant.email}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="py-4 px-4">
-                        <div className="w-24 bg-gray-200 rounded-full h-2">
-                          <div
-                            className="bg-green-500 h-2 rounded-full transition-all duration-500"
-                            style={{ width: `${participant.progress}%` }}
-                          ></div>
-                        </div>
-                        <span className="text-sm text-gray-600 ml-2">{participant.progress}%</span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <span className="text-lg font-semibold text-gray-900">{participant.badges}</span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <span className="text-lg font-semibold text-gray-900">{participant.score - participant.badges}</span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <span className="text-lg font-semibold text-gray-900">{participant.score}/{participant.total}</span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          participant.completed 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-gray-100 text-gray-800'
-                        }`}>
-                          {participant.completed ? 'Yes' : 'No'}
-                        </span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          participant.proofSent 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-gray-100 text-gray-800'
-                        }`}>
-                          {participant.proofSent ? 'Yes' : 'No'}
-                        </span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <span className="text-sm text-gray-600">{participant.lastUpdated}</span>
-                      </td>
-                    </motion.tr>
-                  ))}
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            participant.proofSent 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {participant.proofSent ? 'Yes' : 'No'}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className="text-sm text-gray-600">{participant.lastUpdated}</span>
+                        </td>
+                      </>
+                    );
+
+                    return isMobile ? (
+                      <tr
+                        key={`${participant.email}-${participant.rank}-${index}`}
+                        className="border-b border-gray-100"
+                      >
+                        {rowContent}
+                      </tr>
+                    ) : (
+                      <motion.tr
+                        key={`${participant.email}-${participant.rank}-${index}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: Math.min(index * 0.02, 0.5) }}
+                        className="border-b border-gray-100 hover:bg-gray-50"
+                      >
+                        {rowContent}
+                      </motion.tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

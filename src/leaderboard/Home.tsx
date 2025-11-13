@@ -601,6 +601,102 @@ const CircularProgressCard: React.FC<CircularProps> = ({ count, total, label, su
 // ----------------------- Stats Section -----------------------
 const StatsSection: React.FC = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  const [stats, setStats] = useState({
+    avgProgress: 0,
+    totalBadges: 0,
+    avgCompletion: 0,
+    topPerformer: '-',
+    completed: 0,
+    activeParticipants: 0,
+    completionRate: 0,
+    avgTime: '-',
+    totalParticipants: 153,
+    creditsRedeemed: 98,
+    skillBadgeMasters: 0,
+    arcadeWinners: 0
+  });
+  const [loading, setLoading] = useState(true);
+
+  // Google Sheets CSV URL (same as leaderboard)
+  const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRpmW5aXF3MXdxw-tvh7C7L8lYBWCs23jFwBztWGMzqxhf_syNYLf7fkKWgg3wnw1jkEeSKHpIEDpDo/pub?output=csv";
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(SHEET_CSV_URL);
+        const csv = await response.text();
+        
+        const Papa = await import('papaparse');
+        
+        Papa.parse(csv, {
+          header: true,
+          complete: (results) => {
+            const participants = results.data.map((row: any) => {
+              const name = row['User Name'] || row['Name'] || row['Student Name'] || '';
+              const badges = parseInt(row['# of Skill Badges Completed'] || '0');
+              const arcadeGames = parseInt(row['# of Arcade Games Completed'] || '0');
+              const totalScore = badges + arcadeGames;
+              const progress = Math.round((totalScore / 20) * 100);
+              
+              return {
+                name,
+                badges,
+                arcadeGames,
+                totalScore,
+                progress,
+                completed: totalScore >= 20
+              };
+            }).filter((p: any) => p.name); // Filter out empty names
+
+            if (participants.length > 0) {
+              const totalBadges = participants.reduce((sum: number, p: any) => sum + p.badges, 0);
+              const avgProgress = Math.round(participants.reduce((sum: number, p: any) => sum + p.progress, 0) / participants.length);
+              const completedCount = participants.filter((p: any) => p.completed).length;
+              const skillBadgeMasters = participants.filter((p: any) => p.badges >= 19).length;
+              const arcadeWinners = participants.filter((p: any) => p.arcadeGames >= 1).length;
+              const activeParticipants = participants.filter((p: any) => p.totalScore > 0).length;
+              const completionRate = Math.round((completedCount / participants.length) * 100);
+              
+              // Find top performer
+              const topPerformer = participants.reduce((top: any, current: any) => 
+                current.totalScore > top.totalScore ? current : top
+              );
+
+              setStats({
+                avgProgress: Math.round(totalBadges / participants.length),
+                totalBadges,
+                avgCompletion: avgProgress,
+                topPerformer: topPerformer.name || '-',
+                completed: completedCount,
+                activeParticipants,
+                completionRate,
+                avgTime: '2-3 hours',
+                totalParticipants: participants.length,
+                creditsRedeemed: 98, // Keep hardcoded for now
+                skillBadgeMasters,
+                arcadeWinners
+              });
+            }
+            setLoading(false);
+          },
+          error: (error: any) => {
+            console.error('Error parsing CSV:', error);
+            setLoading(false);
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+    
+    // Auto-refresh every 60 seconds
+    const interval = setInterval(fetchStats, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const containerVariants = {
     hidden: {},
@@ -622,7 +718,7 @@ const StatsSection: React.FC = () => {
         >
           <StatCard
             icon={<UserGroupIcon />}
-            value={0}
+            value={loading ? 0 : stats.avgProgress}
             label="Average Progress"
             sublabel="Badges / Person"
             delay={0}
@@ -631,7 +727,7 @@ const StatsSection: React.FC = () => {
 
           <StatCard
             icon={<StarIcon />}
-            value={0}
+            value={loading ? 0 : stats.totalBadges}
             label="Total Badges Earned"
             delay={0.1}
             gradientColors={['#ea4335', '#fbbc04']}
@@ -639,7 +735,7 @@ const StatsSection: React.FC = () => {
 
           <StatCard
             icon={<CheckIcon />}
-            value={0}
+            value={loading ? 0 : stats.avgCompletion}
             label="Average Completion"
             isPercentage
             delay={0.2}
@@ -649,14 +745,14 @@ const StatsSection: React.FC = () => {
           <StatCard
             icon={<UserIcon />}
             value={null}
-            textValue="-"
+            textValue={loading ? "Loading..." : stats.topPerformer}
             label="Top Performer"
             delay={0.3}
             gradientColors={['#fbbc04', '#ea4335']}
           />
 
           <CircularProgressCard
-            count={0}
+            count={loading ? 0 : stats.completed}
             total={100}
             label="✅ Completed 20 Courses"
             sublabel="Winners"
@@ -665,7 +761,7 @@ const StatsSection: React.FC = () => {
 
           <StatCard
             icon={<PlusCircleIcon />}
-            value={0}
+            value={loading ? 0 : stats.activeParticipants}
             label="Active Participants"
             sublabel="Started Their Journey"
             delay={0.5}
@@ -674,7 +770,7 @@ const StatsSection: React.FC = () => {
 
           <StatCard
             icon={<TrendingUpIcon />}
-            value={0}
+            value={loading ? 0 : stats.completionRate}
             label="Completion Rate"
             sublabel="Overall Progress"
             isPercentage
@@ -685,7 +781,7 @@ const StatsSection: React.FC = () => {
           <StatCard
             icon={<ClockIcon />}
             value={null}
-            textValue="-"
+            textValue={loading ? "Loading..." : stats.avgTime}
             label="Avg Time/Badge"
             sublabel="Estimated Duration"
             delay={0.7}
@@ -694,17 +790,17 @@ const StatsSection: React.FC = () => {
 
           <StatCard
             icon={<CheckCircleIcon />}
-            value={153}
+            value={loading ? 0 : stats.totalParticipants}
             label="Total Participants"
             sublabel="Users Enrolled"
             delay={0.8}
-            animated={false}
+            animated={!loading}
             gradientColors={['#4285f4', '#ea4335']}
           />
 
           <StatCard
             icon={<SmileIcon />}
-            value={98}
+            value={stats.creditsRedeemed}
             label="Credits Redeemed"
             sublabel="Cloud Skill Boost"
             delay={0.9}
@@ -714,21 +810,21 @@ const StatsSection: React.FC = () => {
 
           <StatCard
             icon={<StarIcon />}
-            value={20}
+            value={loading ? 0 : stats.skillBadgeMasters}
             label="All 19 Badges Done"
             sublabel="Skill Badge Masters"
             delay={1.0}
-            animated={false}
+            animated={!loading}
             gradientColors={['#fbbc04', '#34a853']}
           />
 
           <StatCard
             icon={<GameIcon />}
-            value={23}
+            value={loading ? 0 : stats.arcadeWinners}
             label="Arcade Completed"
             sublabel="Game Winners"
             delay={1.1}
-            animated={false}
+            animated={!loading}
             gradientColors={['#ea4335', '#fbbc04']}
           />
         </motion.div>
