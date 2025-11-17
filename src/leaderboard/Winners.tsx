@@ -55,10 +55,9 @@ const Winners = () => {
             console.log('Proof sent:', participants.filter((p: any) => p.proofSent).length);
             console.log('Both completed AND proof sent:', participants.filter((p: any) => p.completed && p.proofSent).length);
 
-            // Filter winners - show those who completed 20/20 (proof sent is optional for now)
+            // Show ALL participants who completed 20/20 courses
             const qualifiedWinners = participants
               .filter((p: any) => p.completed && p.name) // Only require completion, not proof
-              .slice(0, 12) // Get top 12 winners
               .map((p: any, index: number) => ({
                 id: index + 1,
                 name: p.name,
