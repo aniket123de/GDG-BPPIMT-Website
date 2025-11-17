@@ -637,15 +637,19 @@ const StatsSection: React.FC = () => {
               const badges = parseInt(row['# of Skill Badges Completed'] || '0');
               const arcadeGames = parseInt(row['# of Arcade Games Completed'] || '0');
               const totalScore = badges + arcadeGames;
-              const progress = Math.round((totalScore / 20) * 100);
+              
+              // Check if marked as completed in the sheet OR if they actually have 20/20
+              const allLabsDone = row['All Skill Badges & Games Completed']?.toLowerCase() === 'yes';
+              const finalScore = allLabsDone ? 20 : totalScore;
+              const progress = Math.round((finalScore / 20) * 100);
               
               return {
                 name,
                 badges,
                 arcadeGames,
-                totalScore,
+                totalScore: finalScore,
                 progress,
-                completed: totalScore >= 20
+                completed: allLabsDone || totalScore >= 20
               };
             }).filter((p: any) => p.name); // Filter out empty names
 

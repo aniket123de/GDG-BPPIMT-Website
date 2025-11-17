@@ -416,7 +416,11 @@ const Leaderboard: React.FC = () => {
             const arcadeGames = parseInt(row['# of Arcade Games Completed'] || '0');
             const totalScore = badges + arcadeGames; // Total score is badges + arcade games
             const total = 20; // Assuming 20 is the max possible score
-            const progress = total > 0 ? Math.round((totalScore / total) * 100) : 0;
+            
+            // Check if marked as completed in the sheet OR if they actually have 20/20
+            const allLabsDone = row['All Skill Badges & Games Completed']?.toLowerCase() === 'yes';
+            const finalScore = allLabsDone ? 20 : totalScore; // Show 20 if marked as completed
+            const progress = total > 0 ? Math.round((finalScore / total) * 100) : 0;
             
             return {
               rank: index + 1,
@@ -424,9 +428,9 @@ const Leaderboard: React.FC = () => {
               email: row['User Email'] || row['Email'] || '',
               progress: progress,
               badges: badges,
-              score: totalScore,
+              score: finalScore,
               total: total,
-              completed: totalScore >= total,
+              completed: allLabsDone || totalScore >= total,
               lastUpdated: 'Just now', // Google Sheets doesn't have this column
               initials: initials,
               proofSent: row['Access Code Redemption Status'] === 'Redeemed' || 
@@ -447,34 +451,34 @@ const Leaderboard: React.FC = () => {
           const totalBadges = transformedData.reduce((sum, p) => sum + p.badges, 0);
           const averageProgress = Math.round(transformedData.reduce((sum, p) => sum + p.progress, 0) / transformedData.length);
           
-          // Calculate tier system based on skill badges completion (19 badges = 100%)
-          const skillBadgesCompleted = transformedData.filter(p => p.badges >= 19).length;
+          // Calculate tier system based on completed participants (20/20 or marked as "Yes")
+          const completedParticipants = transformedData.filter(p => p.completed).length;
           let tier = 0;
           let tierProgress = 0;
           let nextTierThreshold = 50;
           
-          if (skillBadgesCompleted >= 100) {
+          if (completedParticipants >= 100) {
             tier = 1;
             tierProgress = 100;
             nextTierThreshold = 100;
-          } else if (skillBadgesCompleted >= 75) {
+          } else if (completedParticipants >= 75) {
             tier = 2;
-            tierProgress = Math.round((skillBadgesCompleted / 100) * 100);
+            tierProgress = Math.round((completedParticipants / 100) * 100);
             nextTierThreshold = 100;
-          } else if (skillBadgesCompleted >= 50) {
+          } else if (completedParticipants >= 50) {
             tier = 3;
-            tierProgress = Math.round((skillBadgesCompleted / 75) * 100);
+            tierProgress = Math.round((completedParticipants / 75) * 100);
             nextTierThreshold = 75;
           } else {
             tier = 0;
-            tierProgress = Math.round((skillBadgesCompleted / 50) * 100);
+            tierProgress = Math.round((completedParticipants / 50) * 100);
             nextTierThreshold = 50;
           }
           
           setStats({
             above50Progress,
             totalBadges,
-            completed: skillBadgesCompleted,
+            completed: completedParticipants,
             averageProgress,
             tier,
             tierProgress,

@@ -35,7 +35,11 @@ const Winners = () => {
               const badges = parseInt(row['# of Skill Badges Completed'] || row['Badges'] || '0');
               const arcadeGames = parseInt(row['# of Arcade Games Completed'] || '0');
               const totalScore = badges + arcadeGames;
-              const completed = totalScore >= 20;
+              
+              // Check if marked as completed in the sheet OR if they actually have 20/20
+              const allLabsDone = row['All Skill Badges & Games Completed']?.toLowerCase() === 'yes';
+              const completed = allLabsDone || totalScore >= 20;
+              
               const proofSent = row['Access Code Redemption Status'] === 'Redeemed' || 
                               row['Profile URL Status'] === 'Valid';
               
@@ -43,7 +47,7 @@ const Winners = () => {
                 name,
                 badges,
                 arcadeGames,
-                totalScore,
+                totalScore: allLabsDone ? 20 : totalScore, // Show 20 if marked as completed
                 completed,
                 proofSent
               };
@@ -213,7 +217,7 @@ const Winners = () => {
                   {/* Status Buttons */}
                   <div className="space-y-2">
                     <div className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                      ✓ 19 + 1 = 20 Done
+                      ✓ All Labs Completed
                     </div>
                     {winner.proofSent ? (
                       <>
@@ -225,14 +229,9 @@ const Winners = () => {
                         </div>
                       </>
                     ) : (
-                      <>
-                        <div className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                          ⏳ Proof Pending
-                        </div>
-                        <div className="bg-gray-400 text-white px-4 py-2 rounded-full text-sm font-bold">
-                          Send Proof for Swag
-                        </div>
-                      </>
+                      <div className="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-bold">
+                        SWAG CONFIRMED ✓
+                      </div>
                     )}
                   </div>
                 </div>
