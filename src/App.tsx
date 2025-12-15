@@ -2,6 +2,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Navbar, Footer, Articles, FeedbackForm, IndividualPastEvent, IndividualUpcomingEvent, ScrollProgress, ScrollToTop, Loader } from "./components/index.ts";
 import {Home, Team , Events } from "./pages/index.ts"
+import Hackathon from "./hackathon/Hackathon";
 import LeaderboardHome from "./leaderboard/Home";
 import LeaderboardTable from "./leaderboard/leaderboard";
 import Winners from "./leaderboard/Winners";
@@ -65,6 +66,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/team" element={<Team />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/hackathon" element={<Hackathon />} />
           <Route path="/leaderboard" element={<LeaderboardHome />} />
           <Route path="/leaderboard/table" element={<LeaderboardTable />} />
           <Route path="/winners" element={<Winners />} />

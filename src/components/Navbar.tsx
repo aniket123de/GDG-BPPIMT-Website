@@ -47,9 +47,9 @@ const Navbar = () => {
         </button>
         <button
           className="text-gray-800 nav-links relative"
-          onClick={() => navigate("/leaderboard")}
+          onClick={() => navigate("/hackathon")}
         >
-          Leaderboard
+          Hackathon
         </button>
         {/* <button
           className="text-gray-800 nav-links relative"
@@ -119,11 +119,11 @@ const Navbar = () => {
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white text-xl px-6 py-3 rounded-lg font-semibold mb-6 transition-colors"
           onClick={() => {
-            navigate("/leaderboard");
+            navigate("/hackathon");
             toggleMenu();
           }}
         >
-          📊 Leaderboard
+          💻 Hackathon
         </button>
         {/* <button
           className="text-white text-3xl mb-6 transition relative"
